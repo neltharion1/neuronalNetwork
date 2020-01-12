@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1_input = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2_hidden = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3_output = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4_inout = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5_out = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,11 +43,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.Column1_input = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2_hidden = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3_output = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4_inout = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5_out = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -62,6 +62,31 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(570, 530);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // Column1_input
+            // 
+            this.Column1_input.HeaderText = "Input Layer";
+            this.Column1_input.Name = "Column1_input";
+            // 
+            // Column2_hidden
+            // 
+            this.Column2_hidden.HeaderText = "Input Hidden";
+            this.Column2_hidden.Name = "Column2_hidden";
+            // 
+            // Column3_output
+            // 
+            this.Column3_output.HeaderText = "Output Hidden";
+            this.Column3_output.Name = "Column3_output";
+            // 
+            // Column4_inout
+            // 
+            this.Column4_inout.HeaderText = "Input output";
+            this.Column4_inout.Name = "Column4_inout";
+            // 
+            // Column5_out
+            // 
+            this.Column5_out.HeaderText = "Output Layer";
+            this.Column5_out.Name = "Column5_out";
             // 
             // label1
             // 
@@ -122,6 +147,7 @@
             this.button1.TabIndex = 7;
             this.button1.Text = "Create Network";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -140,31 +166,7 @@
             this.button3.TabIndex = 9;
             this.button3.Text = "Query Network";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // Column1_input
-            // 
-            this.Column1_input.HeaderText = "Input Layer";
-            this.Column1_input.Name = "Column1_input";
-            // 
-            // Column2_hidden
-            // 
-            this.Column2_hidden.HeaderText = "Input Hidden";
-            this.Column2_hidden.Name = "Column2_hidden";
-            // 
-            // Column3_output
-            // 
-            this.Column3_output.HeaderText = "Output Hidden";
-            this.Column3_output.Name = "Column3_output";
-            // 
-            // Column4_inout
-            // 
-            this.Column4_inout.HeaderText = "Input output";
-            this.Column4_inout.Name = "Column4_inout";
-            // 
-            // Column5_out
-            // 
-            this.Column5_out.HeaderText = "Output Layer";
-            this.Column5_out.Name = "Column5_out";
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
