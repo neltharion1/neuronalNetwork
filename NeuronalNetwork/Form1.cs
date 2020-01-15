@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace NeuronalNetwork
     {
         int inodes = 0, hnodes = 0, onodes = 0;
         nn3S nn3SO;
+        Einstellungen einstellungen;
 
        
   
@@ -22,14 +24,30 @@ namespace NeuronalNetwork
         {
            
             InitializeComponent();
+            Properties.Settings.Default.InputNodes = Convert.ToInt32(GetSetting("InputNodes"));
+            Properties.Settings.Default.HiddenNodes = Convert.ToInt32(GetSetting("HiddenNodes"));
+            Properties.Settings.Default.OutputNodes = Convert.ToInt32(GetSetting("OutputNodes"));
+            Properties.Settings.Default.LearnRate = GetSetting("LearnRate");
+        }
+
+        private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            
+            einstellungen = new Einstellungen();
+            einstellungen.Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            inodes = (int)numericUpDown1.Value;
-            hnodes = (int)numericUpDown2.Value;
-            onodes = (int)numericUpDown3.Value;
-
+            inodes = Properties.Settings.Default.InputNodes;
+            hnodes = Properties.Settings.Default.HiddenNodes;
+            onodes = Properties.Settings.Default.OutputNodes;
+            
             nn3SO = new nn3S(inodes, hnodes, onodes);
         }
         private void button3_Click(object sender, EventArgs e)
@@ -53,6 +71,10 @@ namespace NeuronalNetwork
                 dataGridView1.Rows[i].Cells[3].Value = nn3SO.Final_inputs[i].ToString();
                 dataGridView1.Rows[i].Cells[4].Value = nn3SO.Final_outputs[i].ToString();
             }
+        }
+        private static string GetSetting(string key)
+        {
+            return ConfigurationManager.AppSettings[key];
         }
     }
 }
