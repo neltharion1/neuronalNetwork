@@ -41,7 +41,7 @@ namespace NeuronalNetwork
             return resMatr;
         }
 
-        public double[] matixMultVec(double[,] matr1, double[] matr2)
+        public double[] matixMult(double[,] matr1, double[] matr2)
         {
             int rowMatr1 = matr1.GetLength(0);
             int colMatr1 = matr1.GetLength(1);

@@ -44,14 +44,14 @@ namespace NeuronalNetwork
 
         public void queryNN(double[] inputs) 
         {
-            hidden_inputs = nnmath.matixMultVec(wih, inputs);
+            hidden_inputs = nnmath.matixMult(wih, inputs);
             //hidden_outputs = new double[hidden_inputs.GetLength(0)];
             for(int i=0; i<hidden_inputs.GetLength(0); i++)
             {
                 Console.WriteLine("HiddenInput[" + i + "] = " + hidden_inputs[i]);                
             }
             hidden_outputs = nnmath.sigmoid(hidden_inputs);
-            final_inputs = nnmath.matixMultVec(who, hidden_outputs);
+            final_inputs = nnmath.matixMult(who, hidden_outputs);
             final_outputs = nnmath.sigmoid(final_inputs);
         }
     }

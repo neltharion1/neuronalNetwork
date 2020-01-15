@@ -15,9 +15,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="NeuronalNetwork.nnMath">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Position X="4.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAABAA=</HashCode>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAABAA=</HashCode>
       <FileName>nnMath.cs</FileName>
     </TypeIdentifier>
   </Class>
