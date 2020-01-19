@@ -70,5 +70,17 @@ namespace NeuronalNetwork.Properties {
                 this["LearnRate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int HiddenLayer {
+            get {
+                return ((int)(this["HiddenLayer"]));
+            }
+            set {
+                this["HiddenLayer"] = value;
+            }
+        }
     }
 }

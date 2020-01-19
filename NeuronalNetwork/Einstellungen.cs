@@ -21,6 +21,7 @@ namespace NeuronalNetwork
             numericUpDown1.Value = Properties.Settings.Default.InputNodes;
             numericUpDown2.Value = Properties.Settings.Default.HiddenNodes;
             numericUpDown3.Value = Properties.Settings.Default.OutputNodes;
+            numericUpDown4.Value = Properties.Settings.Default.HiddenLayer;
             textBox1.Text = Properties.Settings.Default.LearnRate;
         }
 
@@ -34,11 +35,13 @@ namespace NeuronalNetwork
             Properties.Settings.Default.InputNodes = (int)numericUpDown1.Value;
             Properties.Settings.Default.HiddenNodes = (int)numericUpDown2.Value;
             Properties.Settings.Default.OutputNodes = (int)numericUpDown3.Value;
+            Properties.Settings.Default.HiddenLayer = (int)numericUpDown4.Value;
             Properties.Settings.Default.LearnRate = textBox1.Text;         
            
             SetSetting("InputNodes", numericUpDown1.Value.ToString());
             SetSetting("HiddenNodes", numericUpDown2.Value.ToString());
             SetSetting("OutputNodes", numericUpDown3.Value.ToString());
+            SetSetting("HiddenLayer", numericUpDown4.Value.ToString());
             SetSetting("LearnRate", textBox1.Text);
             this.Close();
         }

@@ -17,13 +17,25 @@ namespace NeuronalNetwork
             InitializeComponent();
         }
 
-        public void viewMatr(double[,] wih, double[,] who)
+        public void viewMatr(double[,] wih, double[,] who, List<double[,]> weightList)
         {
             int i,j;
             int wihRow = wih.GetLength(0);
             int wihCol = wih.GetLength(1);
             int whoRow = who.GetLength(0);
             int whoCol = who.GetLength(1);
+
+            for (i = 0; i < weightList.Count(); i++)
+            {
+                UserControl1 uc = new UserControl1();
+                TabPage tp = new TabPage();
+                uc.createMatr(weightList[i]);
+                tp.Controls.Add(uc);
+                tp.Name = "w_matr_"+i;
+                tp.Text = "W-Matrix_H-" + i;                
+                this.tabControl1.TabPages.Add(tp);
+
+            }
 
             for (i = 0; i < wihCol; i++)
             {

@@ -13,7 +13,7 @@ namespace NeuronalNetwork
 {
     public partial class Form1 : Form
     {
-        int inodes = 0, hnodes = 0, onodes = 0;
+        int inodes = 0, hnodes = 0, onodes = 0, hiddenLayers=0;
         double learningRate;
         nn3S nn3SO;
         Einstellungen einstellungen;
@@ -31,6 +31,7 @@ namespace NeuronalNetwork
             Properties.Settings.Default.InputNodes = Convert.ToInt32(GetSetting("InputNodes"));
             Properties.Settings.Default.HiddenNodes = Convert.ToInt32(GetSetting("HiddenNodes"));
             Properties.Settings.Default.OutputNodes = Convert.ToInt32(GetSetting("OutputNodes"));
+            Properties.Settings.Default.HiddenLayer = Convert.ToInt32(GetSetting("HiddenLayer"));
             Properties.Settings.Default.LearnRate = GetSetting("LearnRate");
         }
 
@@ -51,6 +52,7 @@ namespace NeuronalNetwork
             inodes = Properties.Settings.Default.InputNodes;
             hnodes = Properties.Settings.Default.HiddenNodes;
             onodes = Properties.Settings.Default.OutputNodes;
+            hiddenLayers = Properties.Settings.Default.HiddenLayer;
             learningRate = Convert.ToDouble(Properties.Settings.Default.LearnRate);
             int i, j;
              j = Math.Max(inodes, hnodes);
@@ -58,7 +60,7 @@ namespace NeuronalNetwork
             for (i = 0; i < j; i++)
               dataGridView1.Rows.Add();
 
-            nn3SO = new nn3S(inodes, hnodes, onodes, learningRate);
+            nn3SO = new nn3S(inodes, hnodes, onodes, learningRate, hiddenLayers);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -208,9 +210,18 @@ namespace NeuronalNetwork
 
         private void weightMatritzenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            weightForm = new WeightMatrForm();
-            weightForm.viewMatr(nn3SO.WIH, nn3SO.WHO);
-            weightForm.Visible = true;
+            if (nn3SO != null)
+            {
+                weightForm = new WeightMatrForm();
+                weightForm.viewMatr(nn3SO.WIH, nn3SO.WHO, nn3SO.WeightList);
+                weightForm.Visible = true;
+            }
+            else
+            {
+                errorForm = new ErrorForm();
+                errorForm.setError("Kein Netz gefunden");
+                errorForm.Visible = true;
+            }
         }
 
         private void displayResults()

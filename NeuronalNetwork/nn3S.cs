@@ -13,11 +13,13 @@ namespace NeuronalNetwork
         private double[] hidden_inputs;
         private double[] hidden_outputs;
         private double[] hidden_errors;
-        private int hnodes, innodes, onodes;
+        private int hnodes, innodes, onodes, hiddenLayers;
         private double[,] who, wih;
         private double learningRate;
         private double[] output_errors;
+        private double[,] weightMatr_temp;
         private nnMath nnmath = new nnMath();
+        private List<double[,]> weightList = new List<double[,]>();
 
 
         public double[] Final_inputs { get { return final_inputs; } set { final_inputs = value; } }
@@ -28,17 +30,20 @@ namespace NeuronalNetwork
         public double[] Output_errors { get { return output_errors; } set { output_errors = value; } }
         public double[,] WHO { get { return who; } }
         public double[,] WIH { get { return wih; } }
-        public nn3S(int innodes, int hnodes, int onodes, double learningRate)
+        public List<double[,]> WeightList { get { return weightList; } }
+        public nn3S(int innodes, int hnodes, int onodes, double learningRate, int hiddenLayers)
         {
             this.innodes = innodes;
             this.hnodes = hnodes;
             this.onodes = onodes;
             this.learningRate = learningRate;
+            this.hiddenLayers = hiddenLayers;
             createWeightMatrizes();
         }
 
         private void createWeightMatrizes()
         {
+            /*
             wih = new double[,]{ { 0.9, 0.3, 0.4 }, { 0.2, 0.8, 0.2 }, { 0.1,0.5,0.6} };
             who = new double[,] { { 0.3, 0.7, 0.5 }, { 0.6, 0.5, 0.2 }, { 0.8, 0.1, 0.9 } };
             for(int i =0; i< wih.GetLength(0); i++)
@@ -47,6 +52,37 @@ namespace NeuronalNetwork
                 {
                     Console.WriteLine("Matrix[" + i + "," + j + "] = " + wih[i, j]);
                 }
+            }*/
+            wih = new double[innodes, hnodes];
+            who = new double[hnodes, onodes];
+            weightMatr_temp = new double[hnodes, hnodes];
+            for (int j = 0; j < hnodes; j++)
+                for (int i = 0; i < innodes; i++)
+                {
+                    System.Random weight_ih = new System.Random(Guid.NewGuid().GetHashCode());
+                    wih[i, j] = (weight_ih.NextDouble() - 0.5) * 2.0;
+                    // Console.WriteLine("i: " + i + ", j: " + j + ", w: " + wih[i, j].ToString());
+                }
+            for (int j = 0; j < onodes; j++)
+                for (int i = 0; i < hnodes; i++)
+                {
+                    System.Random weight_ho = new System.Random(Guid.NewGuid().GetHashCode());
+                    who[i, j] = (weight_ho.NextDouble() - 0.5) * 2.0;
+                    // Console.WriteLine("i: " + i + ", j: " + j + ", w: " + who[i, j].ToString());
+                }
+
+            for (int o = 0; o < hiddenLayers; o++)
+            {
+                for (int j = 0; j < hnodes; j++)
+                {
+                    for (int i = 0; i < innodes; i++)
+                    {
+                        System.Random weight_ih = new System.Random(Guid.NewGuid().GetHashCode());
+                        weightMatr_temp[i, j] = (weight_ih.NextDouble() - 0.5) * 2.0;
+                        // Console.WriteLine("i: " + i + ", j: " + j + ", w: " + wih[i, j].ToString());
+                    }
+                }
+                weightList.Add(weightMatr_temp);
             }
         }
 
