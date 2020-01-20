@@ -114,8 +114,10 @@ namespace NeuronalNetwork
                         StreamReader sr = new StreamReader(File);
                         string line;
                         int intTarget;
+
                         while ((line = sr.ReadLine()) != null && (line != ""))
                         {
+                            
                             Console.WriteLine(line);
                             intTarget = readInputs(line);
                             for (int i = 0; i < onodes; i++)
@@ -126,6 +128,10 @@ namespace NeuronalNetwork
 
                             nn3SO.train(inputs, targets);
                             displayResults();
+                            if(checkBox2.Checked)
+                                MessageBox.Show("Next");
+
+
                             //nn3SO.queryNN(inputs);
                             //trainCount++;
                         }
@@ -317,17 +323,37 @@ namespace NeuronalNetwork
         }
         private int readInputs(string line)
         {
-            int i, j;
-
-            
+            int i, j;            
             string[] input;
+            
+
 
             input = line.Split(',');
             for (i = 1; i < input.Length; i++)
             {
                 j = i - 1;
                 inputs[j] = (Convert.ToDouble(input[i])* 0.99 / 255.0) + 0.01;
+                
             }
+            
+            if (checkBox2.Checked)
+            {
+                int color;
+                Bitmap anImage;
+                anImage = new Bitmap(28, 28, System.Drawing.Imaging.PixelFormat.Format16bppArgb1555);
+                j = 0;
+                for (i = 1; i < inputs.Length; i++)
+                {
+                    j = i - 1;
+                    color = Convert.ToInt32(input[i]);
+                    anImage.SetPixel(j - ((j / 28) * 28), (j / 28),
+                             Color.FromArgb(color, color, color));
+                }
+                pictureBox1.Visible = true;
+                pictureBox1.Image = anImage;
+                //MessageBox.Show("Next");
+            }
+
             return (Convert.ToInt32(input[0]));
         }
 
