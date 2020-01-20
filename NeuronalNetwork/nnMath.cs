@@ -22,7 +22,7 @@ namespace NeuronalNetwork
             double[,] resMatr = new double[rowMatr1, colMatr2];
             if (colMatr1 != rowMatr2)
             {
-                Console.WriteLine("Matrix kann nicht multipliziert werden!");
+                Console.WriteLine("1 Matrix kann nicht multipliziert werden!");
             }
             else
             {
@@ -47,13 +47,15 @@ namespace NeuronalNetwork
             int rowMatr1 = matr1.GetLength(0);
             int colMatr1 = matr1.GetLength(1);
             int rowMatr2 = matr2.GetLength(0);
+            Console.WriteLine("MatrixMult Matrix1[" + rowMatr1+","+ colMatr1+"]");            
+            Console.WriteLine("MatrixMult Matix2[" + rowMatr2+"]");
             double temp = 0;
             double[] resMatr = new double[rowMatr1];
             if (colMatr1 != rowMatr2)
             {
-                Console.WriteLine("Matrix kann nicht multipliziert werden!");
                 errorForm = new ErrorForm();
-                errorForm.setError("Matrix kann nicht multipliziert werden!");
+                errorForm.setError("2 Matrix kann nicht multipliziert werden!");
+                Console.WriteLine("2 Matrix kann nicht multipliziert werden!");
                 errorForm.Visible = true;
 
             }
@@ -61,8 +63,9 @@ namespace NeuronalNetwork
             {
                 for (int i = 0; i < rowMatr1; i++)
                 {
+                
                     temp = 0;
-                    for (int k = 0; k < colMatr1; k++)
+                    for (int k = 0; k < rowMatr2; k++)
                     {
                         temp += matr1[i, k] * matr2[k];
                     }
@@ -95,6 +98,9 @@ namespace NeuronalNetwork
             int colMatr1 = mat1.GetLength(1);
             int rowMatr2 = mat2.GetLength(0);
             int colMatr2 = mat2.GetLength(1);
+            Console.WriteLine("MatrixSum Matrix1[" + rowMatr1+","+colMatr1+"]");
+            Console.WriteLine("MatrixSum Matrix2[" + rowMatr2 + "," + colMatr2 + "]");
+           
             double[,] resMatr = new double[rowMatr1, colMatr2];
             if(rowMatr1 == rowMatr2 && colMatr1 == colMatr2)
             {
@@ -110,6 +116,7 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Matrix kann nicht Addiert werden!");
+                Console.WriteLine("Matrix können nicht addiert werden! 1");
                 errorForm.Visible = true;
             }
 
@@ -120,6 +127,8 @@ namespace NeuronalNetwork
         {
             int colVec1 = vec1.GetLength(0);
             int colVec2 = vec2.GetLength(0);
+            Console.WriteLine("Vector1[" + colVec1 + "]");
+            Console.WriteLine("Vector2[" + colVec2 + "]");
             double[] resVec = new double[colVec1];
 
             if(colVec1 == colVec2)
@@ -133,6 +142,7 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Vektoren können nicht multipliziert werden!");
+                Console.WriteLine("Vektoren können nicht multipliziert werden!");
                 errorForm.Visible = true;
             }
 
@@ -143,6 +153,8 @@ namespace NeuronalNetwork
         {
             int colVec1 = vec1.GetLength(0);
             int colVec2 = vec2.GetLength(0);
+            Console.WriteLine("vectoradd_sub Vec1[" + colVec1 + "]");
+            Console.WriteLine("vectoradd_sub Vec2[" + colVec2 + "]");
             double[] resVec = new double[colVec1];
             if (colVec1 == colVec2)
             {
@@ -162,6 +174,7 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Vektoren können nicht addiert werden!");
+                Console.WriteLine("Vektoren können nicht addiert werden! 1");
                 errorForm.Visible = true;
             }
             return resVec;
@@ -198,7 +211,7 @@ namespace NeuronalNetwork
             {
                 for(int j=0; j < colMatr; j++)
                 {
-                    resMatr[i, j] = matr[j, i];
+                    resMatr[j, i] = matr[i, j];
                 }
             }
 
