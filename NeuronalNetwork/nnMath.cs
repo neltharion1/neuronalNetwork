@@ -47,8 +47,8 @@ namespace NeuronalNetwork
             int rowMatr1 = matr1.GetLength(0);
             int colMatr1 = matr1.GetLength(1);
             int rowMatr2 = matr2.GetLength(0);
-            Console.WriteLine("MatrixMult Matrix1[" + rowMatr1+","+ colMatr1+"]");            
-            Console.WriteLine("MatrixMult Matix2[" + rowMatr2+"]");
+            //Console.WriteLine("MatrixMult Matrix1[" + rowMatr1+","+ colMatr1+"]");            
+            //Console.WriteLine("MatrixMult Matix2[" + rowMatr2+"]");
             double temp = 0;
             double[] resMatr = new double[rowMatr1];
             if (colMatr1 != rowMatr2)
@@ -98,8 +98,8 @@ namespace NeuronalNetwork
             int colMatr1 = mat1.GetLength(1);
             int rowMatr2 = mat2.GetLength(0);
             int colMatr2 = mat2.GetLength(1);
-            Console.WriteLine("MatrixSum Matrix1[" + rowMatr1+","+colMatr1+"]");
-            Console.WriteLine("MatrixSum Matrix2[" + rowMatr2 + "," + colMatr2 + "]");
+            //Console.WriteLine("MatrixSum Matrix1[" + rowMatr1+","+colMatr1+"]");
+            //Console.WriteLine("MatrixSum Matrix2[" + rowMatr2 + "," + colMatr2 + "]");
            
             double[,] resMatr = new double[rowMatr1, colMatr2];
             if(rowMatr1 == rowMatr2 && colMatr1 == colMatr2)
@@ -127,8 +127,8 @@ namespace NeuronalNetwork
         {
             int colVec1 = vec1.GetLength(0);
             int colVec2 = vec2.GetLength(0);
-            Console.WriteLine("Vector1[" + colVec1 + "]");
-            Console.WriteLine("Vector2[" + colVec2 + "]");
+            //Console.WriteLine("Vector1[" + colVec1 + "]");
+            //Console.WriteLine("Vector2[" + colVec2 + "]");
             double[] resVec = new double[colVec1];
 
             if(colVec1 == colVec2)
@@ -153,8 +153,8 @@ namespace NeuronalNetwork
         {
             int colVec1 = vec1.GetLength(0);
             int colVec2 = vec2.GetLength(0);
-            Console.WriteLine("vectoradd_sub Vec1[" + colVec1 + "]");
-            Console.WriteLine("vectoradd_sub Vec2[" + colVec2 + "]");
+            //Console.WriteLine("vectoradd_sub Vec1[" + colVec1 + "]");
+            //Console.WriteLine("vectoradd_sub Vec2[" + colVec2 + "]");
             double[] resVec = new double[colVec1];
             if (colVec1 == colVec2)
             {

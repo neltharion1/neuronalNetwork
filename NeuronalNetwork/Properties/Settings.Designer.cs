@@ -82,5 +82,17 @@ namespace NeuronalNetwork.Properties {
                 this["HiddenLayer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ReadAsync {
+            get {
+                return ((bool)(this["ReadAsync"]));
+            }
+            set {
+                this["ReadAsync"] = value;
+            }
+        }
     }
 }

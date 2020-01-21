@@ -21,7 +21,10 @@ namespace NeuronalNetwork
         ErrorForm errorForm;
         WeightMatrForm weightForm;
         double[] inputs, targets;
-        private string File;
+        private string File, saveFile, matrFile;
+        private List<double[]> inputsList = new List<double[]>();
+        private int queryzahl = 0;
+        private bool queryRead = false;
 
 
 
@@ -35,6 +38,7 @@ namespace NeuronalNetwork
             Properties.Settings.Default.OutputNodes = Convert.ToInt32(GetSetting("OutputNodes"));
             Properties.Settings.Default.HiddenLayer = Convert.ToInt32(GetSetting("HiddenLayer"));
             Properties.Settings.Default.LearnRate = GetSetting("LearnRate");
+            Properties.Settings.Default.ReadAsync = Convert.ToBoolean(GetSetting("ReadAsync"));
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -49,6 +53,7 @@ namespace NeuronalNetwork
             einstellungen.Visible = true;
         }
 
+        // Create Network
         private void button1_Click(object sender, EventArgs e)
         {
             inodes = Properties.Settings.Default.InputNodes;
@@ -66,6 +71,7 @@ namespace NeuronalNetwork
             nn3SO = new nn3S(inodes, hnodes, onodes, learningRate, hiddenLayers);
         }
 
+        // Train Network
         private void button2_Click(object sender, EventArgs e)
         {
             if (nn3SO == null)
@@ -87,7 +93,7 @@ namespace NeuronalNetwork
                         {
                             target = dataGridView1.Rows[i].Cells[6].Value.ToString();
                             targets[i] = Convert.ToDouble(target);
-                            Console.WriteLine("input : " + targets[i]);
+                           // Console.WriteLine("input : " + targets[i]);
                         }
                         else
                         {
@@ -109,44 +115,25 @@ namespace NeuronalNetwork
                 }
                 else
                 {
-                    if (File != null)
+                    if(Properties.Settings.Default.ReadAsync == true)
                     {
-                        StreamReader sr = new StreamReader(File);
-                        string line;
-                        int intTarget;
-
-                        while ((line = sr.ReadLine()) != null && (line != ""))
-                        {
-                            
-                            Console.WriteLine(line);
-                            intTarget = readInputs(line);
-                            for (int i = 0; i < onodes; i++)
-                            {
-                                targets[i] = 0.01;
-                            }
-                            targets[intTarget] = 0.99;
-
-                            nn3SO.train(inputs, targets);
-                            displayResults();
-                            if(checkBox2.Checked)
-                                MessageBox.Show("Next");
-
-
-                            //nn3SO.queryNN(inputs);
-                            //trainCount++;
-                        }
+                        Console.WriteLine("Async");
+                        _ = ProcessReadAsync(true);
                     }
                     else
                     {
-                        errorForm = new ErrorForm();
-                        errorForm.setError("Keine Daten vorhanden!");
-                        errorForm.Visible = true;
+                        readData(true);
                     }
 
+                   
+                    
                 }
             }
         }
 
+        
+
+        // Query Network
         private void button3_Click(object sender, EventArgs e)
         {
             if (nn3SO == null)
@@ -157,10 +144,19 @@ namespace NeuronalNetwork
             }
             else
             {
-                readInputs();
+                if (checkBox1.Checked)
+                {
+                    readInputs();
 
-                nn3SO.queryNN(inputs);
-                displayResults();
+                    nn3SO.queryNN(inputs);
+                    displayResults();
+                }
+                else
+                {
+                    readData(false);
+
+                    
+                }
             }
         }
 
@@ -175,7 +171,7 @@ namespace NeuronalNetwork
                 {
                     input = dataGridView1.Rows[i].Cells[0].Value.ToString();
                     inputs[i] = Convert.ToDouble(input);
-                    Console.WriteLine("input : " + inputs[i]);
+                    //Console.WriteLine("input : " + inputs[i]);
                 }
                 else
                 {
@@ -251,16 +247,7 @@ namespace NeuronalNetwork
             }
         }
 
-        private void öffnenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.InitialDirectory = "";
-            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All Data (*.*) | *.* ";
-            DialogResult result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                File = openFileDialog1.FileName;
-            }
-        }
+       
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
@@ -321,7 +308,58 @@ namespace NeuronalNetwork
         {
             return ConfigurationManager.AppSettings[key];
         }
-        private int readInputs(string line)
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            
+        }
+
+        private void trainingsdatenÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.InitialDirectory = "";
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All Data (*.*) | *.* ";
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                File = openFileDialog1.FileName;
+            }
+        }
+
+        private void matizenöffnenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog2.InitialDirectory = "";
+            openFileDialog2.Filter = "Text files (*.txt)|*.txt|All Data (*.*) | *.* ";
+            DialogResult result = openFileDialog2.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                matrFile = openFileDialog2.FileName;
+            }
+            readMatrData();
+        }
+
+        private void speichernToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.InitialDirectory = "";
+            saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All Data (*.*) | *.* ";
+            DialogResult result = saveFileDialog1.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                saveFile = saveFileDialog1.FileName;
+                Console.WriteLine(saveFile);
+            }
+            if (Properties.Settings.Default.ReadAsync == true)
+            {
+                Console.WriteLine("Async");
+                _ = ProcessWriteAsync();
+            }
+            else
+            {
+                writeData();
+            }
+                
+        }
+
+        private int readInputs(string line , bool query)
         {
             int i, j;            
             string[] input;
@@ -336,6 +374,11 @@ namespace NeuronalNetwork
                 
             }
             
+            if(query == true)
+            {
+                inputsList.Add(inputs);
+            }
+
             if (checkBox2.Checked)
             {
                 int color;
@@ -357,6 +400,375 @@ namespace NeuronalNetwork
             return (Convert.ToInt32(input[0]));
         }
 
-        
+        private async Task ProcessReadAsync(bool train)
+        {
+            if (File != null)
+            {
+                StreamReader sr = new StreamReader(File);
+                string line;
+                int intTarget;
+
+                progressBar1.Maximum = System.IO.File.ReadAllLines(File).Length;
+               // Console.WriteLine(System.IO.File.ReadAllLines(File).Length);
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                int uj = 0;
+                while ((line = await sr.ReadLineAsync()) != null && (line != ""))
+                {
+                    //Console.WriteLine(uj);
+                    uj++;
+                    //Console.WriteLine(line);
+                    intTarget = readInputs(line, false);
+                    for (int i = 0; i < onodes; i++)
+                    {
+                        targets[i] = 0.01;
+                    }
+                    targets[intTarget] = 0.99;
+
+                    if (train == true)
+                    {
+                        nn3SO.train(inputs, targets);
+                    }
+                    else
+                    {
+                        nn3SO.queryNN(inputs);
+                    }
+                    displayResults();
+
+
+                    if (checkBox2.Checked)
+                        MessageBox.Show("Next");
+
+                    //progressBar1.Step += 1;
+                    progressBar1.PerformStep();
+
+
+                    //nn3SO.queryNN(inputs);
+                    //trainCount++;
+                }
+                progressBar1.Visible = false;
+                progressBar1.Value = 0;
+            }
+            else
+            {
+                errorForm = new ErrorForm();
+                errorForm.setError("Keine Daten vorhanden!");
+                errorForm.Visible = true;
+            }
+        }
+
+        private async Task ProcessWriteAsync()
+        {
+            if (saveFile != null)
+            {
+                List<string> saveString = new List<string>();
+                string line;
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+
+                line = hiddenLayers.ToString() + "." + nn3SO.WIH.GetLength(0) + "." + nn3SO.WIH.GetLength(1) + ".";
+                line += nn3SO.WHO.GetLength(0) + "." + nn3SO.WHO.GetLength(1) + ".";
+                progressBar1.Maximum = nn3SO.WIH.GetLength(0) * nn3SO.WIH.GetLength(1);
+                for (int i = 0; i < nn3SO.WIH.GetLength(0); i++)
+                {
+                    for (int j = 0; j < nn3SO.WIH.GetLength(1); j++)
+                    {
+
+                        line += Convert.ToString(nn3SO.WIH[i, j]);
+                        line += ".";
+                        progressBar1.PerformStep();
+                    }
+                }
+                progressBar1.Value = 0;
+                progressBar1.Maximum = nn3SO.WHO.GetLength(0) * nn3SO.WHO.GetLength(1);
+                for (int i = 0; i < nn3SO.WHO.GetLength(0); i++)
+                {
+
+                    for (int j = 0; j < nn3SO.WHO.GetLength(1); j++)
+                    {
+
+                        line += Convert.ToString(nn3SO.WHO[i, j]);
+                        line += ".";
+                        progressBar1.PerformStep();
+                    }
+
+                }
+
+                foreach (double[,] matr in nn3SO.WeightList)
+                {
+                    for (int i = 0; i < matr.GetLength(0); i++)
+                    {
+
+                        for (int j = 0; j < matr.GetLength(1); j++)
+                        {
+
+                            line += Convert.ToString(matr[i, j]);
+                            line += ".";
+                        }
+
+                    }
+                }
+
+                line = line.Substring(0, line.Length - 1);
+
+
+                using (StreamWriter sw = new StreamWriter(saveFile))
+                {
+
+                    await sw.WriteLineAsync(line);
+
+
+                }
+                progressBar1.Visible = false;
+                MessageBox.Show("Erfolgreich gespeichert!");
+            }
+        }
+
+
+        private void writeData()
+        {
+            if (saveFile != null)
+            {
+                List<string> saveString = new List<string>();
+                string line;
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+
+                line = hiddenLayers.ToString() + "." + nn3SO.WIH.GetLength(0) + "." + nn3SO.WIH.GetLength(1) + ".";
+                line += nn3SO.WHO.GetLength(0) + "." + nn3SO.WHO.GetLength(1) + ".";
+                progressBar1.Maximum = nn3SO.WIH.GetLength(0)* nn3SO.WIH.GetLength(1);
+                for (int i = 0; i < nn3SO.WIH.GetLength(0); i++)
+                {                   
+                    for (int j = 0; j < nn3SO.WIH.GetLength(1); j++)
+                    {
+
+                        line += Convert.ToString(nn3SO.WIH[i, j]);
+                        line += ".";
+                        progressBar1.PerformStep();
+                    }                    
+                }
+                progressBar1.Value = 0;
+                progressBar1.Maximum = nn3SO.WHO.GetLength(0) * nn3SO.WHO.GetLength(1);
+                for (int i = 0; i < nn3SO.WHO.GetLength(0); i++)
+                {
+                   
+                    for (int j = 0; j < nn3SO.WHO.GetLength(1); j++)
+                    {
+
+                        line += Convert.ToString(nn3SO.WHO[i, j]);
+                        line += ".";
+                        progressBar1.PerformStep();
+                    }
+                   
+                }
+
+                foreach(double[,] matr in nn3SO.WeightList)
+                {
+                    for (int i = 0; i < matr.GetLength(0); i++)
+                    {
+                        
+                        for (int j = 0; j < matr.GetLength(1); j++)
+                        {
+
+                            line += Convert.ToString(matr[i, j]);
+                            line += ".";
+                        }
+                       
+                    }
+                }
+
+                line = line.Substring(0, line.Length - 1);
+
+                
+                using (StreamWriter sw = new StreamWriter(saveFile))
+                {
+                 
+                    sw.WriteLine(line);
+                    
+                  
+                }
+                progressBar1.Visible = false;
+                MessageBox.Show("Erfolgreich gespeichert!");
+            }
+        }
+
+        private void readMatrData()
+        {
+            if (matrFile != null)
+            {
+                StreamReader sr = new StreamReader(matrFile);
+                string line;
+                List<string> inputlist = new List<string>();
+                int i, j;
+                bool wih = false;
+                bool who = false;
+                double[,] matrix;
+                
+
+                progressBar1.Maximum = System.IO.File.ReadAllLines(matrFile).Length;
+               // Console.WriteLine(System.IO.File.ReadAllLines(matrFile).Length);
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                while ((line = sr.ReadLine()) != null && (line != ""))
+                {
+                    string[] input;
+
+                    input = line.Split('.');
+                    for (i = 0; i < input.Length; i++)
+                    {
+                        //Console.WriteLine(input[i]);
+                        inputlist.Add(input[i]);
+                    }
+
+
+                    progressBar1.PerformStep();
+                }
+                //progressBar1.Visible = false;
+
+                //hnodes = Convert.ToInt32(inputlist[2]);
+
+                hiddenLayers = Convert.ToInt32(inputlist[0]);
+                Console.WriteLine("hidden " + hiddenLayers);
+                hnodes = Convert.ToInt32(inputlist[1]);
+                Console.WriteLine("hnodes " +hnodes);
+                inodes = Convert.ToInt32(inputlist[2]);
+                onodes = Convert.ToInt32(inputlist[3]);
+                nn3SO.createFromData(inodes, hnodes, onodes, hiddenLayers);
+                Console.WriteLine("count "+inputlist.Count());
+                targets = new double[onodes];
+
+                int z = 5;
+
+                progressBar1.Maximum = hnodes* inodes;
+                progressBar1.Value = 0;
+                for (i=0; i < hnodes; i++)
+                {
+                    for (j = 0; j < inodes; j++)
+                    {
+                        nn3SO.WIH[i, j] = Convert.ToDouble(inputlist[z]);
+                        z++;
+                        progressBar1.PerformStep();
+                    }
+                }
+                progressBar1.Maximum = onodes * hnodes;
+                progressBar1.Value = 0;
+                for (i = 0; i < onodes; i++)
+                {
+                    for (j = 0; j < hnodes; j++)
+                    {
+                        nn3SO.WHO[i, j] = Convert.ToDouble(inputlist[z]);
+                        z++;
+                        progressBar1.PerformStep();
+                    }
+                }
+                
+                progressBar1.Value = 0;
+                if (hiddenLayers != 0)
+                {
+                    nn3SO.WeightList.Clear();
+                    progressBar1.Maximum = hnodes * hnodes* hiddenLayers;
+                }
+                else
+                {
+                    progressBar1.Maximum = hnodes * hnodes;
+                }
+                
+                for(int k = 0; k < hiddenLayers; k++)
+                {
+                    
+                    matrix = new double[hnodes, hnodes];
+                    for (i = 0; i < hnodes; i++)
+                    {
+                        
+                        for (j = 0; j < hnodes; j++)
+                        {
+                            
+                            //Console.WriteLine("read "+inputlist[z]);
+                            //if (!inputlist[z].Equals(""))
+                            //{
+
+                            matrix[i, j] = Convert.ToDouble(inputlist[z]);
+                           // Console.WriteLine("read " + inputlist[z]);
+                            //}
+                            z++;
+                            progressBar1.PerformStep();
+
+                        }
+                    }
+                    nn3SO.WeightList.Add(matrix);
+                    
+                }
+
+                progressBar1.Value = 0;
+                progressBar1.Visible = false;
+
+            }
+        }
+
+
+
+        private void readData(bool train)
+        {
+            if (File != null)
+            {
+                StreamReader sr = new StreamReader(File);
+                string line;
+                int intTarget;
+
+                progressBar1.Maximum = System.IO.File.ReadAllLines(File).Length;
+               // Console.WriteLine(System.IO.File.ReadAllLines(File).Length);
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                int uj = 0;
+                while ((line =  sr.ReadLine()) != null && (line != ""))
+                {
+                   // Console.WriteLine(uj);
+                    uj++;
+                    //Console.WriteLine(line);
+                    intTarget = readInputs(line, false);
+                    for (int i = 0; i < onodes; i++)
+                    {
+                        targets[i] = 0.01;
+                    }
+                    targets[intTarget] = 0.99;
+
+                    if (train == true)
+                    {
+                        nn3SO.train(inputs, targets);
+                    }
+                    else
+                    {
+                        nn3SO.queryNN(inputs);
+                    }
+                    displayResults();
+
+
+                    if (checkBox2.Checked)
+                        MessageBox.Show("Next");
+
+                    //progressBar1.Step += 1;
+                    progressBar1.PerformStep();
+
+
+                    //nn3SO.queryNN(inputs);
+                    //trainCount++;
+                }
+                progressBar1.Visible = false;
+                progressBar1.Value = 0;
+            }
+            else
+            {
+                errorForm = new ErrorForm();
+                errorForm.setError("Keine Daten vorhanden!");
+                errorForm.Visible = true;
+            }
+        }
+
+
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1_input = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2_hidden = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +43,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.öffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.öffnenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.matizenöffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainingsdatenÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,6 +63,9 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -129,7 +136,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(919, 46);
+            this.button1.Location = new System.Drawing.Point(878, 336);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 47);
             this.button1.TabIndex = 7;
@@ -139,7 +146,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(919, 99);
+            this.button2.Location = new System.Drawing.Point(878, 389);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 47);
             this.button2.TabIndex = 8;
@@ -149,7 +156,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(919, 152);
+            this.button3.Location = new System.Drawing.Point(878, 442);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 47);
             this.button3.TabIndex = 9;
@@ -172,7 +179,8 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.öffnenToolStripMenuItem,
+            this.öffnenToolStripMenuItem1,
+            this.speichernToolStripMenuItem,
             this.toolStripSeparator1,
             this.toolStripMenuItem2,
             this.toolStripSeparator2,
@@ -181,34 +189,57 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(47, 20);
             this.toolStripMenuItem1.Text = "Datei";
             // 
-            // öffnenToolStripMenuItem
+            // öffnenToolStripMenuItem1
             // 
-            this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            this.öffnenToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.öffnenToolStripMenuItem.Text = "Öffnen";
-            this.öffnenToolStripMenuItem.Click += new System.EventHandler(this.öffnenToolStripMenuItem_Click);
+            this.öffnenToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trainingsdatenÖffnenToolStripMenuItem,
+            this.matizenöffnenToolStripMenuItem});
+            this.öffnenToolStripMenuItem1.Name = "öffnenToolStripMenuItem1";
+            this.öffnenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.öffnenToolStripMenuItem1.Text = "Öffnen";
+            // 
+            // matizenöffnenToolStripMenuItem
+            // 
+            this.matizenöffnenToolStripMenuItem.Name = "matizenöffnenToolStripMenuItem";
+            this.matizenöffnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.matizenöffnenToolStripMenuItem.Text = "Matizenöffnen";
+            this.matizenöffnenToolStripMenuItem.Click += new System.EventHandler(this.matizenöffnenToolStripMenuItem_Click);
+            // 
+            // trainingsdatenÖffnenToolStripMenuItem
+            // 
+            this.trainingsdatenÖffnenToolStripMenuItem.Name = "trainingsdatenÖffnenToolStripMenuItem";
+            this.trainingsdatenÖffnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.trainingsdatenÖffnenToolStripMenuItem.Text = "Daten";
+            this.trainingsdatenÖffnenToolStripMenuItem.Click += new System.EventHandler(this.trainingsdatenÖffnenToolStripMenuItem_Click);
+            // 
+            // speichernToolStripMenuItem
+            // 
+            this.speichernToolStripMenuItem.Name = "speichernToolStripMenuItem";
+            this.speichernToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.speichernToolStripMenuItem.Text = "Speichern";
+            this.speichernToolStripMenuItem.Click += new System.EventHandler(this.speichernToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(126, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Optionen";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
@@ -223,7 +254,7 @@
             // weightMatritzenToolStripMenuItem
             // 
             this.weightMatritzenToolStripMenuItem.Name = "weightMatritzenToolStripMenuItem";
-            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.weightMatritzenToolStripMenuItem.Text = "Weight-Matritzen";
             this.weightMatritzenToolStripMenuItem.Click += new System.EventHandler(this.weightMatritzenToolStripMenuItem_Click);
             // 
@@ -245,7 +276,7 @@
             this.hiddenInputToolStripMenuItem.CheckOnClick = true;
             this.hiddenInputToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hiddenInputToolStripMenuItem.Name = "hiddenInputToolStripMenuItem";
-            this.hiddenInputToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.hiddenInputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hiddenInputToolStripMenuItem.Text = "Hidden Input";
             this.hiddenInputToolStripMenuItem.Click += new System.EventHandler(this.hiddenInputToolStripMenuItem_Click);
             // 
@@ -255,7 +286,7 @@
             this.hiddenOutputToolStripMenuItem.CheckOnClick = true;
             this.hiddenOutputToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hiddenOutputToolStripMenuItem.Name = "hiddenOutputToolStripMenuItem";
-            this.hiddenOutputToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.hiddenOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hiddenOutputToolStripMenuItem.Text = "Hidden Output";
             this.hiddenOutputToolStripMenuItem.Click += new System.EventHandler(this.hiddenOutputToolStripMenuItem_Click);
             // 
@@ -265,7 +296,7 @@
             this.errorHiddenToolStripMenuItem.CheckOnClick = true;
             this.errorHiddenToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.errorHiddenToolStripMenuItem.Name = "errorHiddenToolStripMenuItem";
-            this.errorHiddenToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.errorHiddenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorHiddenToolStripMenuItem.Text = "Error Hidden";
             this.errorHiddenToolStripMenuItem.Click += new System.EventHandler(this.errorHiddenToolStripMenuItem_Click);
             // 
@@ -275,7 +306,7 @@
             this.inputOutputToolStripMenuItem.CheckOnClick = true;
             this.inputOutputToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.inputOutputToolStripMenuItem.Name = "inputOutputToolStripMenuItem";
-            this.inputOutputToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.inputOutputToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inputOutputToolStripMenuItem.Text = "Input Output";
             this.inputOutputToolStripMenuItem.Click += new System.EventHandler(this.inputOutputToolStripMenuItem_Click);
             // 
@@ -285,7 +316,7 @@
             this.errorToolStripMenuItem.CheckOnClick = true;
             this.errorToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.errorToolStripMenuItem.Name = "errorToolStripMenuItem";
-            this.errorToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.errorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.errorToolStripMenuItem.Text = "Error";
             this.errorToolStripMenuItem.Click += new System.EventHandler(this.errorToolStripMenuItem_Click);
             // 
@@ -297,7 +328,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(878, 525);
+            this.checkBox1.Location = new System.Drawing.Point(878, 46);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(111, 17);
             this.checkBox1.TabIndex = 11;
@@ -307,9 +338,9 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.pictureBox1.Location = new System.Drawing.Point(878, 315);
+            this.pictureBox1.Location = new System.Drawing.Point(878, 98);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox1.Size = new System.Drawing.Size(150, 150);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
@@ -317,18 +348,35 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(878, 421);
+            this.checkBox2.Location = new System.Drawing.Point(878, 254);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(90, 17);
             this.checkBox2.TabIndex = 13;
             this.checkBox2.Text = "Show Images";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(12, 548);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(849, 23);
+            this.progressBar1.TabIndex = 14;
+            this.progressBar1.Visible = false;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 564);
+            this.ClientSize = new System.Drawing.Size(1077, 578);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.checkBox1);
@@ -337,9 +385,10 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Hi";
+            this.Text = "Neuronales Netz";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -375,13 +424,19 @@
         private System.Windows.Forms.ToolStripMenuItem errorHiddenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inputOutputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem errorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem öffnenToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem speichernToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem öffnenToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem matizenöffnenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trainingsdatenÖffnenToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
 
