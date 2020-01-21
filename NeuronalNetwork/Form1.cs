@@ -25,7 +25,7 @@ namespace NeuronalNetwork
         private List<double[]> inputsList = new List<double[]>();
         private int queryzahl = 0;
         private bool queryRead = false;
-
+        ZeichnenForm zeichnen;
 
 
 
@@ -357,6 +357,12 @@ namespace NeuronalNetwork
                 writeData();
             }
                 
+        }
+
+        private void zeichnenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            zeichnen = new ZeichnenForm();
+            zeichnen.Visible = true;
         }
 
         private int readInputs(string line , bool query)

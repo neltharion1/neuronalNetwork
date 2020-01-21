@@ -81,6 +81,12 @@
     <Compile Include="WeightMatrForm.Designer.cs">
       <DependentUpon>WeightMatrForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ZeichnenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZeichnenForm.Designer.cs">
+      <DependentUpon>ZeichnenForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Einstellungen.resx">
       <DependentUpon>Einstellungen.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WeightMatrForm.resx">
       <DependentUpon>WeightMatrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZeichnenForm.resx">
+      <DependentUpon>ZeichnenForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="nn.cd" />
     <None Include="Properties\Settings.settings">

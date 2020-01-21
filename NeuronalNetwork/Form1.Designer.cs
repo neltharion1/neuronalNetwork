@@ -66,6 +66,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.zeichnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -246,7 +247,8 @@
             // bearbeitenToolStripMenuItem
             // 
             this.bearbeitenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.weightMatritzenToolStripMenuItem});
+            this.weightMatritzenToolStripMenuItem,
+            this.zeichnenToolStripMenuItem});
             this.bearbeitenToolStripMenuItem.Name = "bearbeitenToolStripMenuItem";
             this.bearbeitenToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.bearbeitenToolStripMenuItem.Text = "Bearbeiten";
@@ -371,6 +373,13 @@
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
+            // zeichnenToolStripMenuItem
+            // 
+            this.zeichnenToolStripMenuItem.Name = "zeichnenToolStripMenuItem";
+            this.zeichnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zeichnenToolStripMenuItem.Text = "Zeichnen";
+            this.zeichnenToolStripMenuItem.Click += new System.EventHandler(this.zeichnenToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -437,6 +446,7 @@
         private System.Windows.Forms.ToolStripMenuItem matizenöffnenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trainingsdatenÖffnenToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.ToolStripMenuItem zeichnenToolStripMenuItem;
     }
 }
 
