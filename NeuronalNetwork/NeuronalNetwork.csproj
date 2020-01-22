@@ -136,5 +136,35 @@
   <ItemGroup>
     <None Include="img\error1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\acht.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\drei.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eins.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\funf.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\neun.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\null.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sechs.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sieben.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vier.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zwei.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

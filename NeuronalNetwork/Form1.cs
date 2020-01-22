@@ -23,9 +23,13 @@ namespace NeuronalNetwork
         double[] inputs, targets;
         private string File, saveFile, matrFile;
         private List<double[]> inputsList = new List<double[]>();
-        private int queryzahl = 0;
-        private bool queryRead = false;
-        ZeichnenForm zeichnen;
+        private List<double[]> traindata = new List<double[]>();
+        private List<double[]> targetsdata = new List<double[]>();
+        
+        ZeichnenForm zeichnen = new ZeichnenForm();
+        private int anzahlquery = 0;
+        private int richtig = 0;
+        private double performanceWert;
 
 
 
@@ -117,16 +121,42 @@ namespace NeuronalNetwork
                 {
                     if(Properties.Settings.Default.ReadAsync == true)
                     {
+                        traindata.Clear();
+                        targetsdata.Clear();
                         Console.WriteLine("Async");
                         _ = ProcessReadAsync(true);
+                       
+                        
+
                     }
                     else
                     {
+                        traindata.Clear();
+                        targetsdata.Clear();
                         readData(true);
+                        Console.WriteLine("readdata");
+                        progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
+                        progressBar1.Step = 1;
+                        progressBar1.Value = 0;
+                        progressBar1.Visible = true;
+                        for (int i = 0; i < (int)numericUpDown1.Value; i++)
+                        {
+
+                            Console.WriteLine("epoch: " + i);
+                            for (int x = 0; x < traindata.Count(); x++)
+                            {
+                                nn3SO.train(traindata[x], targetsdata[x]);
+                                progressBar1.PerformStep();
+                                Console.WriteLine("train: " + x);
+                            }
+                        }
+                        progressBar1.Visible = false;
+
+                        displayResults();
                     }
 
-                   
-                    
+
+
                 }
             }
         }
@@ -146,18 +176,52 @@ namespace NeuronalNetwork
             {
                 if (checkBox1.Checked)
                 {
-                    readInputs();
+                    if (checkBox3.Checked)
+                    {
+                        int target = readInputs(zeichnen.Input, true);
+                        for (int i = 0; i < onodes; i++)
+                        {
+                            targets[i] = 0.01;
+                        }
 
-                    nn3SO.queryNN(inputs);
-                    displayResults();
+                        targets[target] = 0.99;
+                        nn3SO.queryNN(inputs);
+                        displayResults();
+                        performance(target);
+                    }
+                    else
+                    {
+                        readInputs();
+
+                        nn3SO.queryNN(inputs);
+                        displayResults();
+                    }
+                    anzahlquery++;
+
                 }
                 else
                 {
-                    readData(false);
-
-                    
+                    readData(false);                    
                 }
+
             }
+            
+        }
+
+
+        public void performance(int target)
+        {
+            int indexResult = Array.IndexOf(nn3SO.Final_outputs, nn3SO.Final_outputs.Max());
+
+            
+            if(target == indexResult)
+            {
+                richtig++;
+            }
+
+            performanceWert = Convert.ToDouble(richtig) / Convert.ToDouble(anzahlquery);
+            Console.WriteLine("performance t = i: " + target + " = " + indexResult);
+            textBox1.Text = performanceWert.ToString();
         }
 
         private void readInputs()
@@ -361,7 +425,7 @@ namespace NeuronalNetwork
 
         private void zeichnenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            zeichnen = new ZeichnenForm();
+           // zeichnen = new ZeichnenForm();
             zeichnen.Visible = true;
         }
 
@@ -383,6 +447,7 @@ namespace NeuronalNetwork
             if(query == true)
             {
                 inputsList.Add(inputs);
+                
             }
 
             if (checkBox2.Checked)
@@ -434,13 +499,16 @@ namespace NeuronalNetwork
 
                     if (train == true)
                     {
-                        nn3SO.train(inputs, targets);
+                        traindata.Add(inputs);
+                        targetsdata.Add(targets);
+                        // nn3SO.train(inputs, targets);
                     }
                     else
                     {
                         nn3SO.queryNN(inputs);
+                        displayResults();
                     }
-                    displayResults();
+                   
 
 
                     if (checkBox2.Checked)
@@ -462,6 +530,31 @@ namespace NeuronalNetwork
                 errorForm.setError("Keine Daten vorhanden!");
                 errorForm.Visible = true;
             }
+
+            if(train == true)
+            {
+                //Console.WriteLine("readdata");
+                progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                progressBar1.Visible = true;
+                for (int i = 0; i < (int)numericUpDown1.Value; i++)
+                {
+
+                    //Console.WriteLine("epoch: " + i);
+                    for (int x = 0; x < traindata.Count(); x++)
+                    {
+                        nn3SO.train(traindata[x], targetsdata[x]);
+                        progressBar1.PerformStep();
+                       // Console.WriteLine("train: " + x);
+                        displayResults();
+                    }
+                }
+                progressBar1.Visible = false;
+                //displayResults();
+            }
+
+
         }
 
         private async Task ProcessWriteAsync()
@@ -745,11 +838,16 @@ namespace NeuronalNetwork
 
                     if (train == true)
                     {
-                        nn3SO.train(inputs, targets);
+                        traindata.Add(inputs);
+                        targetsdata.Add(targets);
+                       // nn3SO.train(inputs, targets);
                     }
                     else
                     {
                         nn3SO.queryNN(inputs);
+                        anzahlquery++;
+                        performance(intTarget);
+
                     }
                     displayResults();
 
