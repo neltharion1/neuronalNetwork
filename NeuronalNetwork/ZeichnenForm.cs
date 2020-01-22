@@ -77,7 +77,7 @@ namespace NeuronalNetwork
                 for (int i = 1; i < list.Count; i++)
                     bs[i] = (byte)PathPointType.Line;
 
-                using (Pen p = new Pen(Color.Black, 20))
+                using (Pen p = new Pen(Color.White, 20))
                     g.DrawPath(p, new System.Drawing.Drawing2D.GraphicsPath(list.ToArray(), bs));
             }
         }
