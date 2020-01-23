@@ -30,7 +30,7 @@ namespace NeuronalNetwork
         private int anzahlquery = 0;
         private int richtig = 0;
         private double performanceWert;
-
+        private Bitmap[] imgErgebnis;
 
 
         public Form1()
@@ -43,6 +43,19 @@ namespace NeuronalNetwork
             Properties.Settings.Default.HiddenLayer = Convert.ToInt32(GetSetting("HiddenLayer"));
             Properties.Settings.Default.LearnRate = GetSetting("LearnRate");
             Properties.Settings.Default.ReadAsync = Convert.ToBoolean(GetSetting("ReadAsync"));
+
+            imgErgebnis = new Bitmap[10];
+            imgErgebnis[0] = Properties.Resources._null;
+            imgErgebnis[1] = Properties.Resources.eins;
+            imgErgebnis[2] = Properties.Resources.zwei;
+            imgErgebnis[3] = Properties.Resources.drei;
+            imgErgebnis[4] = Properties.Resources.vier;
+            imgErgebnis[5] = Properties.Resources.funf;
+            imgErgebnis[6] = Properties.Resources.sechs;
+            imgErgebnis[7] = Properties.Resources.sieben;
+            imgErgebnis[8] = Properties.Resources.acht;
+            imgErgebnis[9] = Properties.Resources.neun;
+            
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -222,6 +235,8 @@ namespace NeuronalNetwork
             performanceWert = Convert.ToDouble(richtig) / Convert.ToDouble(anzahlquery);
             Console.WriteLine("performance t = i: " + target + " = " + indexResult);
             textBox1.Text = performanceWert.ToString();
+
+            pictureBox2.Image = imgErgebnis[indexResult];
         }
 
         private void readInputs()
@@ -425,7 +440,7 @@ namespace NeuronalNetwork
 
         private void zeichnenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // zeichnen = new ZeichnenForm();
+            
             zeichnen.Visible = true;
         }
 
@@ -696,115 +711,124 @@ namespace NeuronalNetwork
 
         private void readMatrData()
         {
-            if (matrFile != null)
+            if (nn3SO == null)
             {
-                StreamReader sr = new StreamReader(matrFile);
-                string line;
-                List<string> inputlist = new List<string>();
-                int i, j;
-                bool wih = false;
-                bool who = false;
-                double[,] matrix;
-                
-
-                progressBar1.Maximum = System.IO.File.ReadAllLines(matrFile).Length;
-               // Console.WriteLine(System.IO.File.ReadAllLines(matrFile).Length);
-                progressBar1.Visible = true;
-                progressBar1.Step = 1;
-                progressBar1.Value = 0;
-                while ((line = sr.ReadLine()) != null && (line != ""))
+                errorForm = new ErrorForm();
+                errorForm.setError("Kein Netz gefunden!");
+                errorForm.Visible = true;
+            }
+            else
+            {
+                if (matrFile != null)
                 {
-                    string[] input;
+                    StreamReader sr = new StreamReader(matrFile);
+                    string line;
+                    List<string> inputlist = new List<string>();
+                    int i, j;
+                    bool wih = false;
+                    bool who = false;
+                    double[,] matrix;
 
-                    input = line.Split('.');
-                    for (i = 0; i < input.Length; i++)
+
+                    progressBar1.Maximum = System.IO.File.ReadAllLines(matrFile).Length;
+                    // Console.WriteLine(System.IO.File.ReadAllLines(matrFile).Length);
+                    progressBar1.Visible = true;
+                    progressBar1.Step = 1;
+                    progressBar1.Value = 0;
+                    while ((line = sr.ReadLine()) != null && (line != ""))
                     {
-                        //Console.WriteLine(input[i]);
-                        inputlist.Add(input[i]);
-                    }
+                        string[] input;
+
+                        input = line.Split('.');
+                        for (i = 0; i < input.Length; i++)
+                        {
+                            //Console.WriteLine(input[i]);
+                            inputlist.Add(input[i]);
+                        }
 
 
-                    progressBar1.PerformStep();
-                }
-                //progressBar1.Visible = false;
-
-                //hnodes = Convert.ToInt32(inputlist[2]);
-
-                hiddenLayers = Convert.ToInt32(inputlist[0]);
-                Console.WriteLine("hidden " + hiddenLayers);
-                hnodes = Convert.ToInt32(inputlist[1]);
-                Console.WriteLine("hnodes " +hnodes);
-                inodes = Convert.ToInt32(inputlist[2]);
-                onodes = Convert.ToInt32(inputlist[3]);
-                nn3SO.createFromData(inodes, hnodes, onodes, hiddenLayers);
-                Console.WriteLine("count "+inputlist.Count());
-                targets = new double[onodes];
-
-                int z = 5;
-
-                progressBar1.Maximum = hnodes* inodes;
-                progressBar1.Value = 0;
-                for (i=0; i < hnodes; i++)
-                {
-                    for (j = 0; j < inodes; j++)
-                    {
-                        nn3SO.WIH[i, j] = Convert.ToDouble(inputlist[z]);
-                        z++;
                         progressBar1.PerformStep();
                     }
-                }
-                progressBar1.Maximum = onodes * hnodes;
-                progressBar1.Value = 0;
-                for (i = 0; i < onodes; i++)
-                {
-                    for (j = 0; j < hnodes; j++)
-                    {
-                        nn3SO.WHO[i, j] = Convert.ToDouble(inputlist[z]);
-                        z++;
-                        progressBar1.PerformStep();
-                    }
-                }
-                
-                progressBar1.Value = 0;
-                if (hiddenLayers != 0)
-                {
-                    nn3SO.WeightList.Clear();
-                    progressBar1.Maximum = hnodes * hnodes* hiddenLayers;
-                }
-                else
-                {
-                    progressBar1.Maximum = hnodes * hnodes;
-                }
-                
-                for(int k = 0; k < hiddenLayers; k++)
-                {
-                    
-                    matrix = new double[hnodes, hnodes];
+                    //progressBar1.Visible = false;
+
+                    //hnodes = Convert.ToInt32(inputlist[2]);
+
+                    hiddenLayers = Convert.ToInt32(inputlist[0]);
+                    Console.WriteLine("hidden " + hiddenLayers);
+                    hnodes = Convert.ToInt32(inputlist[1]);
+                    Console.WriteLine("hnodes " + hnodes);
+                    inodes = Convert.ToInt32(inputlist[2]);
+                    onodes = Convert.ToInt32(inputlist[3]);
+                    nn3SO.createFromData(inodes, hnodes, onodes, hiddenLayers);
+                    Console.WriteLine("count " + inputlist.Count());
+                    targets = new double[onodes];
+
+                    int z = 5;
+
+                    progressBar1.Maximum = hnodes * inodes;
+                    progressBar1.Value = 0;
                     for (i = 0; i < hnodes; i++)
                     {
-                        
-                        for (j = 0; j < hnodes; j++)
+                        for (j = 0; j < inodes; j++)
                         {
-                            
-                            //Console.WriteLine("read "+inputlist[z]);
-                            //if (!inputlist[z].Equals(""))
-                            //{
-
-                            matrix[i, j] = Convert.ToDouble(inputlist[z]);
-                           // Console.WriteLine("read " + inputlist[z]);
-                            //}
+                            nn3SO.WIH[i, j] = Convert.ToDouble(inputlist[z]);
                             z++;
                             progressBar1.PerformStep();
-
                         }
                     }
-                    nn3SO.WeightList.Add(matrix);
-                    
+                    progressBar1.Maximum = onodes * hnodes;
+                    progressBar1.Value = 0;
+                    for (i = 0; i < onodes; i++)
+                    {
+                        for (j = 0; j < hnodes; j++)
+                        {
+                            nn3SO.WHO[i, j] = Convert.ToDouble(inputlist[z]);
+                            z++;
+                            progressBar1.PerformStep();
+                        }
+                    }
+
+                    progressBar1.Value = 0;
+                    if (hiddenLayers != 0)
+                    {
+                        nn3SO.WeightList.Clear();
+                        progressBar1.Maximum = hnodes * hnodes * hiddenLayers;
+                    }
+                    else
+                    {
+                        progressBar1.Maximum = hnodes * hnodes;
+                    }
+
+                    for (int k = 0; k < hiddenLayers; k++)
+                    {
+
+                        matrix = new double[hnodes, hnodes];
+                        for (i = 0; i < hnodes; i++)
+                        {
+
+                            for (j = 0; j < hnodes; j++)
+                            {
+
+                                //Console.WriteLine("read "+inputlist[z]);
+                                //if (!inputlist[z].Equals(""))
+                                //{
+
+                                matrix[i, j] = Convert.ToDouble(inputlist[z]);
+                                // Console.WriteLine("read " + inputlist[z]);
+                                //}
+                                z++;
+                                progressBar1.PerformStep();
+
+                            }
+                        }
+                        nn3SO.WeightList.Add(matrix);
+
+                    }
+
+                    progressBar1.Value = 0;
+                    progressBar1.Visible = false;
+
                 }
-
-                progressBar1.Value = 0;
-                progressBar1.Visible = false;
-
             }
         }
 

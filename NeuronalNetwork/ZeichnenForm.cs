@@ -136,5 +136,10 @@ namespace NeuronalNetwork
             }
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+        }
     }
 }
