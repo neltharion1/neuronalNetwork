@@ -16,19 +16,23 @@ namespace NeuronalNetwork
         private List<Point> list;
         private Bitmap bmp;
         private Bitmap vorschau;
+        private Bitmap queryBmp;
         private bool mouseDown;
         Graphics g;
         private string input;
         private ErrorForm error;
+        private bool checkColor = false;
 
 
         public string Input { get { return input; } }
+        public bool CheckColor { get { return checkColor; } set { checkColor = value; } }
 
         public ZeichnenForm()
         {
             InitializeComponent();
             this.list = new List<Point>(); //Liste für Koordinaten instanziieren
             this.bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            
             
             //this.bmp = new Bitmap(28,28);
             pictureBox1.Image = bmp;
@@ -102,44 +106,40 @@ namespace NeuronalNetwork
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (vorschau != null)
-            {
-                // string[] sinput = new string[1 + (28 * 28)];
-                //sinput[0] = numericUpDown1.Value.ToString();
-                input = numericUpDown1.Value.ToString() + ",";
-                int j = 0;
-                int colorInt;
-                for (int i = 1; i < (28 * 28) + 1; i++)
-                {
-                    j = i - 1;
-                    int x = (j - ((j / 28) * 28));
-                    int y = (j / 28);
-                    //sinput[i] = Convert.ToString(vorschau.GetPixel(x, y));
-                    //input += Convert.ToString(vorschau.GetPixel(x, y)) + ",";
-                    Color color = vorschau.GetPixel(x, y);
-                    // Console.WriteLine(color);
-                    colorInt = color.A;
-                   // Console.WriteLine(colorInt);
-                    input += colorInt.ToString() + ",";
-
-                }
-                input = input.Substring(0, input.Length - 1);
-               // Console.WriteLine(input);
-            }
-            else
-            {
-                error = new ErrorForm();
-                error.setError("Kein Bild in der Vorschau!");
-                error.Visible = true;
-            }
-
-        }
+       
 
         private void button4_Click(object sender, EventArgs e)
         {
             this.Visible = false;
+        }
+
+
+        public void queryZeichnung()
+        {
+            queryBmp = new Bitmap(bmp, new Size(28, 28));
+            
+            input = numericUpDown1.Value.ToString() + ",";
+            int j = 0;
+            int colorInt;
+            for (int i = 1; i < (28 * 28) + 1; i++)
+            {
+                j = i - 1;
+                int x = (j - ((j / 28) * 28));
+                int y = (j / 28);                
+                Color color = queryBmp.GetPixel(x, y);                
+                colorInt = color.A;   
+                if(colorInt != 0)
+                {
+                    checkColor = true;
+                   // Console.WriteLine("ColorTrue");
+                }
+                input += colorInt.ToString() + ",";
+            }
+
+            input = input.Substring(0, input.Length - 1);      
+
+
+
         }
     }
 }

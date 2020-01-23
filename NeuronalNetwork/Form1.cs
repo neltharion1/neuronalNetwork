@@ -193,16 +193,36 @@ namespace NeuronalNetwork
                 {
                     if (checkBox3.Checked)
                     {
-                        int target = readInputs(zeichnen.Input, true);
-                        for (int i = 0; i < onodes; i++)
+                        zeichnen.queryZeichnung();
+                        if (zeichnen.Input != null)
                         {
-                            targets[i] = 0.01;
-                        }
+                            if (zeichnen.CheckColor == true)
+                            {
+                                int target = readInputs(zeichnen.Input, true);
+                                for (int i = 0; i < onodes; i++)
+                                {
+                                    targets[i] = 0.01;
+                                }
 
-                        targets[target] = 0.99;
-                        nn3SO.queryNN(inputs);
-                        displayResults();
-                        performance(target);
+                                targets[target] = 0.99;
+                                nn3SO.queryNN(inputs);
+                                displayResults();
+                                performance(target);
+                                zeichnen.CheckColor = false;
+                            }
+                            else
+                            {
+                                errorForm = new ErrorForm();
+                                errorForm.setError("Es wurde kein Zeichen im Zeichenfeld gefunden!");
+                                errorForm.Visible = true;
+                            }
+                        }
+                        else
+                        {
+                            errorForm = new ErrorForm();
+                            errorForm.setError("Kein Bild gefunden!");
+                            errorForm.Visible = true;
+                        }
                     }
                     else
                     {
