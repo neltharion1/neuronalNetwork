@@ -25,6 +25,8 @@ namespace NeuronalNetwork
         private List<double[]> inputsList = new List<double[]>();
         private List<double[]> traindata = new List<double[]>();
         private List<double[]> targetsdata = new List<double[]>();
+        private string appName = "Neuronales Netz";
+        
         
         ZeichnenForm zeichnen = new ZeichnenForm();
         private int anzahlquery = 0;
@@ -80,6 +82,7 @@ namespace NeuronalNetwork
             learningRate = Convert.ToDouble(Properties.Settings.Default.LearnRate);
             int i, j;
             inputs = new double[inodes];
+            targets = new double[onodes];
             j = Math.Max(inodes, hnodes);
              j = Math.Max(j, onodes);
             for (i = 0; i < j; i++)
@@ -133,10 +136,9 @@ namespace NeuronalNetwork
                 else
                 {
                     if(Properties.Settings.Default.ReadAsync == true)
-                    {
-                        traindata.Clear();
-                        targetsdata.Clear();
-                        Console.WriteLine("Async");
+                    {                        
+                        //Console.WriteLine("Async");
+
                         _ = ProcessReadAsync(true);
                        
                         
@@ -144,37 +146,37 @@ namespace NeuronalNetwork
                     }
                     else
                     {
-                        traindata.Clear();
-                        targetsdata.Clear();
-                        readData(true);
-                        Console.WriteLine("readdata");
-                        progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
-                        progressBar1.Step = 1;
-                        progressBar1.Value = 0;
-                        progressBar1.Visible = true;
                         for (int i = 0; i < (int)numericUpDown1.Value; i++)
                         {
+                            readData(true);
+                            /*
+                             Console.WriteLine("readdata");
+                             progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
+                             progressBar1.Step = 1;
+                             progressBar1.Value = 0;
+                             progressBar1.Visible = true;
+                             for (int i = 0; i < (int)numericUpDown1.Value; i++)
+                             {
 
-                            Console.WriteLine("epoch: " + i);
-                            for (int x = 0; x < traindata.Count(); x++)
-                            {
-                                nn3SO.train(traindata[x], targetsdata[x]);
-                                progressBar1.PerformStep();
-                                Console.WriteLine("train: " + x);
-                            }
+                                 Console.WriteLine("epoch: " + i);
+                                 for (int x = 0; x < traindata.Count(); x++)
+                                 {
+                                     nn3SO.train(traindata[x], targetsdata[x]);
+                                     progressBar1.PerformStep();
+                                     Console.WriteLine("train: " + x);
+                                 }
+                             }
+                             progressBar1.Visible = false;
+                             */
+                            displayResults();
                         }
-                        progressBar1.Visible = false;
-
-                        displayResults();
                     }
 
 
 
                 }
             }
-        }
-
-        
+        }        
 
         // Query Network
         private void button3_Click(object sender, EventArgs e)
@@ -233,7 +235,7 @@ namespace NeuronalNetwork
             }
 
             performanceWert = Convert.ToDouble(richtig) / Convert.ToDouble(anzahlquery);
-            Console.WriteLine("performance t = i: " + target + " = " + indexResult);
+            //Console.WriteLine("performance t = i: " + target + " = " + indexResult);
             textBox1.Text = performanceWert.ToString();
 
             pictureBox2.Image = imgErgebnis[indexResult];
@@ -331,6 +333,8 @@ namespace NeuronalNetwork
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             Console.WriteLine("OK");
+            this.Text = appName + " - " + openFileDialog1.SafeFileName;
+
         }
 
         private void weightMatritzenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -424,11 +428,11 @@ namespace NeuronalNetwork
             if(result == DialogResult.OK)
             {
                 saveFile = saveFileDialog1.FileName;
-                Console.WriteLine(saveFile);
+                //Console.WriteLine(saveFile);
             }
             if (Properties.Settings.Default.ReadAsync == true)
             {
-                Console.WriteLine("Async");
+               // Console.WriteLine("Async");
                 _ = ProcessWriteAsync();
             }
             else
@@ -488,56 +492,63 @@ namespace NeuronalNetwork
 
         private async Task ProcessReadAsync(bool train)
         {
+            //traindata.Clear();
+            //targetsdata.Clear();
+
             if (File != null)
             {
-                StreamReader sr = new StreamReader(File);
-                string line;
-                int intTarget;
-
-                progressBar1.Maximum = System.IO.File.ReadAllLines(File).Length;
-               // Console.WriteLine(System.IO.File.ReadAllLines(File).Length);
-                progressBar1.Visible = true;
-                progressBar1.Step = 1;
-                progressBar1.Value = 0;
-                int uj = 0;
-                while ((line = await sr.ReadLineAsync()) != null && (line != ""))
+                for (int n = 0; n < (int)numericUpDown1.Value; n++)
                 {
-                    //Console.WriteLine(uj);
-                    uj++;
-                    //Console.WriteLine(line);
-                    intTarget = readInputs(line, false);
-                    for (int i = 0; i < onodes; i++)
+                    StreamReader sr = new StreamReader(File);
+                    string line;
+                    int intTarget;
+
+                    progressBar1.Maximum = System.IO.File.ReadAllLines(File).Length;
+                    // Console.WriteLine(System.IO.File.ReadAllLines(File).Length);
+                    progressBar1.Visible = true;
+                    progressBar1.Step = 1;
+                    progressBar1.Value = 0;
+                    int uj = 0;
+                    while ((line = await sr.ReadLineAsync()) != null && (line != ""))
                     {
-                        targets[i] = 0.01;
+                        //Console.WriteLine(uj);
+                        uj++;
+                        //Console.WriteLine(line);
+                        intTarget = readInputs(line, false);
+                        for (int i = 0; i < onodes; i++)
+                        {
+                            targets[i] = 0.01;
+                        }
+                        targets[intTarget] = 0.99;
+
+                        if (train == true)
+                        {
+                            //traindata.Add(inputs);
+                            //targetsdata.Add(targets);
+                            nn3SO.train(inputs, targets);
+                            displayResults();
+                        }
+                        else
+                        {
+                            nn3SO.queryNN(inputs);
+                            displayResults();
+                        }
+
+
+
+                        if (checkBox2.Checked)
+                            MessageBox.Show("Next");
+
+                        //progressBar1.Step += 1;
+                        progressBar1.PerformStep();
+
+
+                        //nn3SO.queryNN(inputs);
+                        //trainCount++;
                     }
-                    targets[intTarget] = 0.99;
-
-                    if (train == true)
-                    {
-                        traindata.Add(inputs);
-                        targetsdata.Add(targets);
-                        // nn3SO.train(inputs, targets);
-                    }
-                    else
-                    {
-                        nn3SO.queryNN(inputs);
-                        displayResults();
-                    }
-                   
-
-
-                    if (checkBox2.Checked)
-                        MessageBox.Show("Next");
-
-                    //progressBar1.Step += 1;
-                    progressBar1.PerformStep();
-
-
-                    //nn3SO.queryNN(inputs);
-                    //trainCount++;
+                    progressBar1.Visible = false;
+                    progressBar1.Value = 0;
                 }
-                progressBar1.Visible = false;
-                progressBar1.Value = 0;
             }
             else
             {
@@ -546,7 +557,7 @@ namespace NeuronalNetwork
                 errorForm.Visible = true;
             }
 
-            if(train == true)
+            /*if(train == true)
             {
                 //Console.WriteLine("readdata");
                 progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
@@ -567,7 +578,7 @@ namespace NeuronalNetwork
                 }
                 progressBar1.Visible = false;
                 //displayResults();
-            }
+            }*/
 
 
         }
@@ -639,7 +650,6 @@ namespace NeuronalNetwork
                 MessageBox.Show("Erfolgreich gespeichert!");
             }
         }
-
 
         private void writeData()
         {
@@ -754,13 +764,13 @@ namespace NeuronalNetwork
                     //hnodes = Convert.ToInt32(inputlist[2]);
 
                     hiddenLayers = Convert.ToInt32(inputlist[0]);
-                    Console.WriteLine("hidden " + hiddenLayers);
+                  //  Console.WriteLine("hidden " + hiddenLayers);
                     hnodes = Convert.ToInt32(inputlist[1]);
-                    Console.WriteLine("hnodes " + hnodes);
+                  //  Console.WriteLine("hnodes " + hnodes);
                     inodes = Convert.ToInt32(inputlist[2]);
                     onodes = Convert.ToInt32(inputlist[3]);
                     nn3SO.createFromData(inodes, hnodes, onodes, hiddenLayers);
-                    Console.WriteLine("count " + inputlist.Count());
+                   // Console.WriteLine("count " + inputlist.Count());
                     targets = new double[onodes];
 
                     int z = 5;
@@ -832,10 +842,10 @@ namespace NeuronalNetwork
             }
         }
 
-
-
         private void readData(bool train)
         {
+            traindata.Clear();
+            targetsdata.Clear();
             if (File != null)
             {
                 StreamReader sr = new StreamReader(File);
@@ -848,6 +858,7 @@ namespace NeuronalNetwork
                 progressBar1.Step = 1;
                 progressBar1.Value = 0;
                 int uj = 0;
+
                 while ((line =  sr.ReadLine()) != null && (line != ""))
                 {
                    // Console.WriteLine(uj);
@@ -862,9 +873,9 @@ namespace NeuronalNetwork
 
                     if (train == true)
                     {
-                        traindata.Add(inputs);
-                        targetsdata.Add(targets);
-                       // nn3SO.train(inputs, targets);
+                        //traindata.Add(inputs);
+                        //targetsdata.Add(targets);
+                        nn3SO.train(inputs, targets);
                     }
                     else
                     {

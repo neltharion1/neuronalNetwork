@@ -205,7 +205,7 @@
             this.trainingsdatenÖffnenToolStripMenuItem,
             this.matizenöffnenToolStripMenuItem});
             this.öffnenToolStripMenuItem1.Name = "öffnenToolStripMenuItem1";
-            this.öffnenToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
+            this.öffnenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.öffnenToolStripMenuItem1.Text = "Öffnen";
             // 
             // trainingsdatenÖffnenToolStripMenuItem
@@ -225,31 +225,31 @@
             // speichernToolStripMenuItem
             // 
             this.speichernToolStripMenuItem.Name = "speichernToolStripMenuItem";
-            this.speichernToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.speichernToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.speichernToolStripMenuItem.Text = "Speichern";
             this.speichernToolStripMenuItem.Click += new System.EventHandler(this.speichernToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(128, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "Optionen";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(125, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
@@ -265,14 +265,14 @@
             // weightMatritzenToolStripMenuItem
             // 
             this.weightMatritzenToolStripMenuItem.Name = "weightMatritzenToolStripMenuItem";
-            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.weightMatritzenToolStripMenuItem.Text = "Weight-Matritzen";
             this.weightMatritzenToolStripMenuItem.Click += new System.EventHandler(this.weightMatritzenToolStripMenuItem_Click);
             // 
             // zeichnenToolStripMenuItem
             // 
             this.zeichnenToolStripMenuItem.Name = "zeichnenToolStripMenuItem";
-            this.zeichnenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.zeichnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zeichnenToolStripMenuItem.Text = "Zeichnen";
             this.zeichnenToolStripMenuItem.Click += new System.EventHandler(this.zeichnenToolStripMenuItem_Click);
             // 
@@ -489,7 +489,9 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Neuronales Netz";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);

@@ -121,12 +121,12 @@ namespace NeuronalNetwork
                     Color color = vorschau.GetPixel(x, y);
                     // Console.WriteLine(color);
                     colorInt = color.A;
-                    Console.WriteLine(colorInt);
+                   // Console.WriteLine(colorInt);
                     input += colorInt.ToString() + ",";
 
                 }
                 input = input.Substring(0, input.Length - 1);
-                Console.WriteLine(input);
+               // Console.WriteLine(input);
             }
             else
             {
