@@ -19,10 +19,8 @@ namespace NeuronalNetwork
         private Bitmap queryBmp;
         private bool mouseDown;
         Graphics g;
-        private string input;
-        private ErrorForm error;
+        private string input;        
         private bool checkColor = false;
-
 
         public string Input { get { return input; } }
         public bool CheckColor { get { return checkColor; } set { checkColor = value; } }
@@ -32,11 +30,7 @@ namespace NeuronalNetwork
             InitializeComponent();
             this.list = new List<Point>(); //Liste für Koordinaten instanziieren
             this.bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            
-            
-            //this.bmp = new Bitmap(28,28);
-            pictureBox1.Image = bmp;
-            
+            pictureBox1.Image = bmp;            
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -103,16 +97,12 @@ namespace NeuronalNetwork
             bmp.Dispose();
             this.bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
-
         }
-
-       
 
         private void button4_Click(object sender, EventArgs e)
         {
             this.Visible = false;
         }
-
 
         public void queryZeichnung()
         {
@@ -135,11 +125,7 @@ namespace NeuronalNetwork
                 }
                 input += colorInt.ToString() + ",";
             }
-
-            input = input.Substring(0, input.Length - 1);      
-
-
-
+            input = input.Substring(0, input.Length - 1);     
         }
     }
 }

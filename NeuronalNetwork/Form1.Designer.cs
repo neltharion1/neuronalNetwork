@@ -74,6 +74,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -211,14 +212,14 @@
             // trainingsdatenÖffnenToolStripMenuItem
             // 
             this.trainingsdatenÖffnenToolStripMenuItem.Name = "trainingsdatenÖffnenToolStripMenuItem";
-            this.trainingsdatenÖffnenToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.trainingsdatenÖffnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.trainingsdatenÖffnenToolStripMenuItem.Text = "Daten";
             this.trainingsdatenÖffnenToolStripMenuItem.Click += new System.EventHandler(this.trainingsdatenÖffnenToolStripMenuItem_Click);
             // 
             // matizenöffnenToolStripMenuItem
             // 
             this.matizenöffnenToolStripMenuItem.Name = "matizenöffnenToolStripMenuItem";
-            this.matizenöffnenToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.matizenöffnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.matizenöffnenToolStripMenuItem.Text = "Matizenöffnen";
             this.matizenöffnenToolStripMenuItem.Click += new System.EventHandler(this.matizenöffnenToolStripMenuItem_Click);
             // 
@@ -257,6 +258,7 @@
             // 
             this.bearbeitenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.weightMatritzenToolStripMenuItem,
+            this.toolStripSeparator3,
             this.zeichnenToolStripMenuItem});
             this.bearbeitenToolStripMenuItem.Name = "bearbeitenToolStripMenuItem";
             this.bearbeitenToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
@@ -466,6 +468,11 @@
             this.label3.TabIndex = 21;
             this.label3.Text = "Vom Netz erkannt";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -551,6 +558,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

@@ -8,6 +8,7 @@ namespace NeuronalNetwork
 {
     class nn3S
     {
+        // Variablen ##############################################
         private double[] final_inputs;
         private double[] final_outputs;
         private double[] hidden_inputs;
@@ -26,6 +27,8 @@ namespace NeuronalNetwork
         private List<double[]> outputList = new List<double[]>();
         private List<double[]> errorList = new List<double[]>();
 
+        // ########################################################
+
 
         public double[] Final_inputs { get { return final_inputs; } set { final_inputs = value; } }
         public double[] Final_outputs { get { return final_outputs; } set { final_outputs = value; } }
@@ -36,6 +39,9 @@ namespace NeuronalNetwork
         public double[,] WHO { get { return who; } set { who = value; } }
         public double[,] WIH { get { return wih; }set { wih = value; } }
         public List<double[,]> WeightList { get { return weightList; } }
+
+
+
         public nn3S(int innodes, int hnodes, int onodes, double learningRate, int hiddenLayers)
         {
             this.innodes = innodes;
@@ -55,23 +61,13 @@ namespace NeuronalNetwork
             wih = new double[hnodes, innodes];
             who = new double[onodes, hnodes];
         }
+
         private void createWeightMatrizes()
-        {
-            
-           /* wih = new double[,]{ { 0.9, 0.3, 0.4 }, { 0.2, 0.8, 0.2 }, { 0.1,0.5,0.6} };
-            who = new double[,] { { 0.3, 0.7, 0.5 }, { 0.6, 0.5, 0.2 }, { 0.8, 0.1, 0.9 } };
-            for(int i =0; i< wih.GetLength(0); i++)
-            {
-                for(int j = 0; j < wih.GetLength(1); j++)
-                {
-                    Console.WriteLine("Matrix[" + i + "," + j + "] = " + wih[i, j]);
-                }
-            }*/
+        { 
             wih = new double[hnodes, innodes];
             who = new double[onodes, hnodes];
            // Console.WriteLine("create wih[" + wih.GetLength(0) + "," + wih.GetLength(1) + "]");
-           // Console.WriteLine("create who[" + who.GetLength(0) + "," + who.GetLength(1) + "]");
-            //weightMatr_temp = new double[hnodes, hnodes];
+           // Console.WriteLine("create who[" + who.GetLength(0) + "," + who.GetLength(1) + "]");            
             for (int i = 0; i < hnodes; i++)
                 for (int j = 0; j < innodes; j++)
                 {
@@ -85,9 +81,7 @@ namespace NeuronalNetwork
                     System.Random weight_ho = new System.Random(Guid.NewGuid().GetHashCode());
                     who[i, j] = (weight_ho.NextDouble() - 0.5) * 2.0;
                     // Console.WriteLine("i: " + i + ", j: " + j + ", w: " + who[i, j].ToString());
-                }
-            
-            //weightList.Add(wih);
+                }     
             for (int o = 0; o < hiddenLayers; o++)
             {
                 weightMatr_temp = new double[hnodes, hnodes];
@@ -107,17 +101,14 @@ namespace NeuronalNetwork
         }
 
         public void queryNN(double[] inputs) 
-        {
-            
+        { 
             //Console.WriteLine("query0: inputs[" + inputs.GetLength(0)+"]");
             hidden_inputs = nnmath.matrixMult(wih, inputs);
             //Console.WriteLine("queryNN 1 hiddeninputs["+hidden_inputs.GetLength(0)+"]");
-            inputList.Add(hidden_inputs);
-           
+            inputList.Add(hidden_inputs);           
             hidden_outputs = nnmath.sigmoid(hidden_inputs);
             outputList.Add(hidden_outputs);
-            //Console.WriteLine("queryNN 2 hiddenoutputs[" + hidden_outputs.GetLength(0) + "]");
-            int z = 0;
+            //Console.WriteLine("queryNN 2 hiddenoutputs[" + hidden_outputs.GetLength(0) + "]");            
             foreach(double[,] matr in weightList)
             {
                 inputList.Add(nnmath.matrixMult(matr, outputList.Last()));
@@ -166,8 +157,7 @@ namespace NeuronalNetwork
             //Console.WriteLine("train 9 deltaW_out["+ deltaW_out.GetLength(0)+","+ deltaW_out.GetLength(1)+"]");
             errorList.Add(hidden_errors);
             who = nnmath.matrixSum(who, deltaW_out);
-            //Console.WriteLine("train 10 who["+who.GetLength(0)+","+ who.GetLength(1)+"]");
-            //weightList_temp.Add(who);
+            //Console.WriteLine("train 10 who["+who.GetLength(0)+","+ who.GetLength(1)+"]");           
             int z = 1;
             weightList.Reverse();
             foreach(double[,] matr in weightList)
