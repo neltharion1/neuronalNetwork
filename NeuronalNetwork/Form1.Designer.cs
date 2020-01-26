@@ -53,6 +53,7 @@
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weightMatritzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.zeichnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ansichtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hiddenInputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -205,7 +207,7 @@
             this.trainingsdatenÖffnenToolStripMenuItem,
             this.matizenöffnenToolStripMenuItem});
             this.öffnenToolStripMenuItem1.Name = "öffnenToolStripMenuItem1";
-            this.öffnenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.öffnenToolStripMenuItem1.Size = new System.Drawing.Size(128, 22);
             this.öffnenToolStripMenuItem1.Text = "Öffnen";
             // 
             // trainingsdatenÖffnenToolStripMenuItem
@@ -225,31 +227,31 @@
             // speichernToolStripMenuItem
             // 
             this.speichernToolStripMenuItem.Name = "speichernToolStripMenuItem";
-            this.speichernToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.speichernToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.speichernToolStripMenuItem.Text = "Speichern";
             this.speichernToolStripMenuItem.Click += new System.EventHandler(this.speichernToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(128, 22);
             this.toolStripMenuItem2.Text = "Optionen";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(125, 6);
             // 
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
-            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.beendenToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.beendenToolStripMenuItem.Text = "Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
             // 
@@ -257,6 +259,7 @@
             // 
             this.bearbeitenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.weightMatritzenToolStripMenuItem,
+            this.toolStripSeparator3,
             this.zeichnenToolStripMenuItem});
             this.bearbeitenToolStripMenuItem.Name = "bearbeitenToolStripMenuItem";
             this.bearbeitenToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
@@ -265,14 +268,19 @@
             // weightMatritzenToolStripMenuItem
             // 
             this.weightMatritzenToolStripMenuItem.Name = "weightMatritzenToolStripMenuItem";
-            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.weightMatritzenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.weightMatritzenToolStripMenuItem.Text = "Weight-Matritzen";
             this.weightMatritzenToolStripMenuItem.Click += new System.EventHandler(this.weightMatritzenToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(166, 6);
             // 
             // zeichnenToolStripMenuItem
             // 
             this.zeichnenToolStripMenuItem.Name = "zeichnenToolStripMenuItem";
-            this.zeichnenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zeichnenToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.zeichnenToolStripMenuItem.Text = "Zeichnen";
             this.zeichnenToolStripMenuItem.Click += new System.EventHandler(this.zeichnenToolStripMenuItem_Click);
             // 
@@ -434,7 +442,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(928, 348);
+            this.label2.Location = new System.Drawing.Point(880, 348);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 16);
             this.label2.TabIndex = 18;
@@ -442,7 +450,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(965, 367);
+            this.textBox1.Location = new System.Drawing.Point(883, 367);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(100, 20);
@@ -466,11 +474,22 @@
             this.label3.TabIndex = 21;
             this.label3.Text = "Vom Netz erkannt";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(992, 365);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(63, 23);
+            this.button4.TabIndex = 22;
+            this.button4.Text = "Löschen";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1077, 578);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.textBox1);
@@ -551,6 +570,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

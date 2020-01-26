@@ -55,22 +55,19 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("2 Matrix kann nicht multipliziert werden!");
-                Console.WriteLine("2 Matrix kann nicht multipliziert werden!");
+                //Console.WriteLine("2 Matrix kann nicht multipliziert werden!");
                 errorForm.Visible = true;
-
             }
             else
             {
                 for (int i = 0; i < rowMatr1; i++)
-                {
-                
+                {                
                     temp = 0;
                     for (int k = 0; k < rowMatr2; k++)
                     {
                         temp += matr1[i, k] * matr2[k];
                     }
                     resMatr[i] = temp;
-
                 }
             }
             return resMatr;
@@ -116,10 +113,9 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Matrix kann nicht Addiert werden!");
-                Console.WriteLine("Matrix können nicht addiert werden! 1");
+                //Console.WriteLine("Matrix können nicht addiert werden! 1");
                 errorForm.Visible = true;
             }
-
             return resMatr;
         }
 
@@ -142,10 +138,9 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Vektoren können nicht multipliziert werden!");
-                Console.WriteLine("Vektoren können nicht multipliziert werden!");
+                //Console.WriteLine("Vektoren können nicht multipliziert werden!");
                 errorForm.Visible = true;
             }
-
             return resVec;
         }
 
@@ -174,15 +169,14 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Vektoren können nicht addiert werden!");
-                Console.WriteLine("Vektoren können nicht addiert werden! 1");
+                //Console.WriteLine("Vektoren können nicht addiert werden! 1");
                 errorForm.Visible = true;
             }
             return resVec;
         }
 
         public double[] vectoradd_sub(double vec1, double[] vec2, bool addition)
-        {
-            
+        {            
             int colVec2 = vec2.GetLength(0);
             double[] resVec = new double[colVec2];
             
@@ -214,7 +208,6 @@ namespace NeuronalNetwork
                     resMatr[j, i] = matr[i, j];
                 }
             }
-
             return resMatr;
         }
 
@@ -230,7 +223,6 @@ namespace NeuronalNetwork
                     resMatr[i, j] = scale * matr[i, j];
                 }
             }
-
             return resMatr;
         }
 

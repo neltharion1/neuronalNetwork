@@ -14,25 +14,23 @@ namespace NeuronalNetwork
 {
     public partial class Form1 : Form
     {
-        int inodes = 0, hnodes = 0, onodes = 0, hiddenLayers=0;
+        // Variablen #########################################################
+        private int inodes = 0, hnodes = 0, onodes = 0, hiddenLayers=0;
+        private int anzahlquery = 0;
+        private int richtig = 0;
+        private double performanceWert;
         double learningRate;
+        double[] inputs, targets;
+        private Bitmap[] imgErgebnis;
+        private string File, saveFile, matrFile;
+        private string appName = "Neuronales Netz";       
         nn3S nn3SO;
         Einstellungen einstellungen;
         ErrorForm errorForm;
         WeightMatrForm weightForm;
-        double[] inputs, targets;
-        private string File, saveFile, matrFile;
-        private List<double[]> inputsList = new List<double[]>();
-        private List<double[]> traindata = new List<double[]>();
-        private List<double[]> targetsdata = new List<double[]>();
-        private string appName = "Neuronales Netz";
-        
-        
         ZeichnenForm zeichnen = new ZeichnenForm();
-        private int anzahlquery = 0;
-        private int richtig = 0;
-        private double performanceWert;
-        private Bitmap[] imgErgebnis;
+        
+        //###################################################################
 
 
         public Form1()
@@ -58,19 +56,7 @@ namespace NeuronalNetwork
             imgErgebnis[8] = Properties.Resources.acht;
             imgErgebnis[9] = Properties.Resources.neun;
             
-        }
-
-        private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            
-            einstellungen = new Einstellungen();
-            einstellungen.Visible = true;
-        }
+        }        
 
         // Create Network
         private void button1_Click(object sender, EventArgs e)
@@ -80,17 +66,9 @@ namespace NeuronalNetwork
             onodes = Properties.Settings.Default.OutputNodes;
             hiddenLayers = Properties.Settings.Default.HiddenLayer;
             learningRate = Convert.ToDouble(Properties.Settings.Default.LearnRate);
-            int i, j;
-            inputs = new double[inodes];
-            targets = new double[onodes];
-            j = Math.Max(inodes, hnodes);
-             j = Math.Max(j, onodes);
-            for (i = 0; i < j; i++)
-              dataGridView1.Rows.Add();
-
-            nn3SO = new nn3S(inodes, hnodes, onodes, learningRate, hiddenLayers);
+            createNetwork();
         }
-
+       
         // Train Network
         private void button2_Click(object sender, EventArgs e)
         {
@@ -138,42 +116,16 @@ namespace NeuronalNetwork
                     if(Properties.Settings.Default.ReadAsync == true)
                     {                        
                         //Console.WriteLine("Async");
-
-                        _ = ProcessReadAsync(true);
-                       
-                        
-
+                        _ = ProcessReadAsync(true); 
                     }
                     else
                     {
                         for (int i = 0; i < (int)numericUpDown1.Value; i++)
                         {
-                            readData(true);
-                            /*
-                             Console.WriteLine("readdata");
-                             progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
-                             progressBar1.Step = 1;
-                             progressBar1.Value = 0;
-                             progressBar1.Visible = true;
-                             for (int i = 0; i < (int)numericUpDown1.Value; i++)
-                             {
-
-                                 Console.WriteLine("epoch: " + i);
-                                 for (int x = 0; x < traindata.Count(); x++)
-                                 {
-                                     nn3SO.train(traindata[x], targetsdata[x]);
-                                     progressBar1.PerformStep();
-                                     Console.WriteLine("train: " + x);
-                                 }
-                             }
-                             progressBar1.Visible = false;
-                             */
+                            readData(true);                           
                             displayResults();
                         }
                     }
-
-
-
                 }
             }
         }        
@@ -227,27 +179,21 @@ namespace NeuronalNetwork
                     else
                     {
                         readInputs();
-
                         nn3SO.queryNN(inputs);
                         displayResults();
                     }
                     anzahlquery++;
-
                 }
                 else
                 {
                     readData(false);                    
                 }
-
-            }
-            
+            }            
         }
-
 
         public void performance(int target)
         {
             int indexResult = Array.IndexOf(nn3SO.Final_outputs, nn3SO.Final_outputs.Max());
-
             
             if(target == indexResult)
             {
@@ -257,7 +203,6 @@ namespace NeuronalNetwork
             performanceWert = Convert.ToDouble(richtig) / Convert.ToDouble(anzahlquery);
             //Console.WriteLine("performance t = i: " + target + " = " + indexResult);
             textBox1.Text = performanceWert.ToString();
-
             pictureBox2.Image = imgErgebnis[indexResult];
         }
 
@@ -285,101 +230,11 @@ namespace NeuronalNetwork
                 errorForm.setError("Kein Inputs vorhanden");
                 errorForm.Visible = true;
             }
-
-        }
-
-        private void hiddenInputToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (hiddenInputToolStripMenuItem.Checked)
-            {
-                dataGridView1.Columns["Column2_hidden"].Visible = true;
-            }
-            else
-            {
-                dataGridView1.Columns["Column2_hidden"].Visible = false;
-            }
-        }
-
-        private void hiddenOutputToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (hiddenOutputToolStripMenuItem.Checked)
-            {
-                dataGridView1.Columns["Column3_output"].Visible = true;
-            }
-            else
-            {
-                dataGridView1.Columns["Column3_output"].Visible = false;
-            }
-        }
-
-        private void errorHiddenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (errorHiddenToolStripMenuItem.Checked)
-            {
-                dataGridView1.Columns["errorHidden"].Visible = true;
-            }
-            else
-            {
-                dataGridView1.Columns["errorHidden"].Visible = false;
-            }
-        }
-
-        private void inputOutputToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (inputOutputToolStripMenuItem.Checked)
-            {
-                dataGridView1.Columns["Column4_inout"].Visible = true;
-            }
-            else
-            {
-                dataGridView1.Columns["Column4_inout"].Visible = false;
-            }
-        }
-
-        private void errorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (errorToolStripMenuItem.Checked)
-            {
-                dataGridView1.Columns["error"].Visible = true;
-            }
-            else
-            {
-                dataGridView1.Columns["error"].Visible = false;
-            }
-        }
-
-       
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            Console.WriteLine("OK");
-            this.Text = appName + " - " + openFileDialog1.SafeFileName;
-
-        }
-
-        private void weightMatritzenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (nn3SO != null)
-            {
-                weightForm = new WeightMatrForm();
-                weightForm.viewMatr(nn3SO.WIH, nn3SO.WHO, nn3SO.WeightList);
-                weightForm.Visible = true;
-            }
-            else
-            {
-                errorForm = new ErrorForm();
-                errorForm.setError("Kein Netz gefunden");
-                errorForm.Visible = true;
-            }
-        }
+        }        
 
         private void displayResults()
         {
-            int i, j;
-            // j = Math.Max(inodes, hnodes);
-            // j = Math.Max(j, onodes);
-            //for (i = 0; i < j; i++)
-            //  dataGridView1.Rows.Add();
+            int i, j;            
             if (inputs != null)
                 for (i = 0; i < inputs.Length; i++)
                     dataGridView1.Rows[i].Cells[0].Value = inputs[i].ToString();
@@ -405,7 +260,6 @@ namespace NeuronalNetwork
                 for (i = 0; i < nn3SO.Output_errors.Length; i++)
                     dataGridView1.Rows[i].Cells[7].Value = nn3SO.Output_errors[i].ToString();
         }
-
 
         private static string GetSetting(string key)
         {
@@ -458,13 +312,11 @@ namespace NeuronalNetwork
             else
             {
                 writeData();
-            }
-                
+            }                
         }
 
         private void zeichnenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
+        {            
             zeichnen.Visible = true;
         }
 
@@ -472,21 +324,12 @@ namespace NeuronalNetwork
         {
             int i, j;            
             string[] input;
-            
-
 
             input = line.Split(',');
             for (i = 1; i < input.Length; i++)
             {
                 j = i - 1;
-                inputs[j] = (Convert.ToDouble(input[i])* 0.99 / 255.0) + 0.01;
-                
-            }
-            
-            if(query == true)
-            {
-                inputsList.Add(inputs);
-                
+                inputs[j] = (Convert.ToDouble(input[i])* 0.99 / 255.0) + 0.01;                
             }
 
             if (checkBox2.Checked)
@@ -506,15 +349,11 @@ namespace NeuronalNetwork
                 pictureBox1.Image = anImage;
                 //MessageBox.Show("Next");
             }
-
             return (Convert.ToInt32(input[0]));
         }
 
         private async Task ProcessReadAsync(bool train)
-        {
-            //traindata.Clear();
-            //targetsdata.Clear();
-
+        {         
             if (File != null)
             {
                 for (int n = 0; n < (int)numericUpDown1.Value; n++)
@@ -543,8 +382,6 @@ namespace NeuronalNetwork
 
                         if (train == true)
                         {
-                            //traindata.Add(inputs);
-                            //targetsdata.Add(targets);
                             nn3SO.train(inputs, targets);
                             displayResults();
                         }
@@ -554,17 +391,9 @@ namespace NeuronalNetwork
                             displayResults();
                         }
 
-
-
                         if (checkBox2.Checked)
-                            MessageBox.Show("Next");
-
-                        //progressBar1.Step += 1;
+                            MessageBox.Show("Next");                        
                         progressBar1.PerformStep();
-
-
-                        //nn3SO.queryNN(inputs);
-                        //trainCount++;
                     }
                     progressBar1.Visible = false;
                     progressBar1.Value = 0;
@@ -575,32 +404,7 @@ namespace NeuronalNetwork
                 errorForm = new ErrorForm();
                 errorForm.setError("Keine Daten vorhanden!");
                 errorForm.Visible = true;
-            }
-
-            /*if(train == true)
-            {
-                //Console.WriteLine("readdata");
-                progressBar1.Maximum = (int)numericUpDown1.Value * traindata.Count();
-                progressBar1.Step = 1;
-                progressBar1.Value = 0;
-                progressBar1.Visible = true;
-                for (int i = 0; i < (int)numericUpDown1.Value; i++)
-                {
-
-                    //Console.WriteLine("epoch: " + i);
-                    for (int x = 0; x < traindata.Count(); x++)
-                    {
-                        nn3SO.train(traindata[x], targetsdata[x]);
-                        progressBar1.PerformStep();
-                       // Console.WriteLine("train: " + x);
-                        displayResults();
-                    }
-                }
-                progressBar1.Visible = false;
-                //displayResults();
-            }*/
-
-
+            }   
         }
 
         private async Task ProcessWriteAsync()
@@ -638,33 +442,25 @@ namespace NeuronalNetwork
                         line += ".";
                         progressBar1.PerformStep();
                     }
-
                 }
 
                 foreach (double[,] matr in nn3SO.WeightList)
                 {
                     for (int i = 0; i < matr.GetLength(0); i++)
                     {
-
                         for (int j = 0; j < matr.GetLength(1); j++)
                         {
-
                             line += Convert.ToString(matr[i, j]);
                             line += ".";
                         }
-
                     }
                 }
 
                 line = line.Substring(0, line.Length - 1);
 
-
                 using (StreamWriter sw = new StreamWriter(saveFile))
                 {
-
                     await sw.WriteLineAsync(line);
-
-
                 }
                 progressBar1.Visible = false;
                 MessageBox.Show("Erfolgreich gespeichert!");
@@ -681,7 +477,8 @@ namespace NeuronalNetwork
                 progressBar1.Step = 1;
                 progressBar1.Value = 0;
 
-                line = hiddenLayers.ToString() + "." + nn3SO.WIH.GetLength(0) + "." + nn3SO.WIH.GetLength(1) + ".";
+                line = "Neuronales Netz von Arne Brandt: Matritzen.";
+                line += hiddenLayers.ToString() + "." + nn3SO.WIH.GetLength(0) + "." + nn3SO.WIH.GetLength(1) + ".";
                 line += nn3SO.WHO.GetLength(0) + "." + nn3SO.WHO.GetLength(1) + ".";
                 progressBar1.Maximum = nn3SO.WIH.GetLength(0)* nn3SO.WIH.GetLength(1);
                 for (int i = 0; i < nn3SO.WIH.GetLength(0); i++)
@@ -705,34 +502,26 @@ namespace NeuronalNetwork
                         line += Convert.ToString(nn3SO.WHO[i, j]);
                         line += ".";
                         progressBar1.PerformStep();
-                    }
-                   
+                    }                   
                 }
 
                 foreach(double[,] matr in nn3SO.WeightList)
                 {
                     for (int i = 0; i < matr.GetLength(0); i++)
-                    {
-                        
+                    {                        
                         for (int j = 0; j < matr.GetLength(1); j++)
                         {
-
                             line += Convert.ToString(matr[i, j]);
                             line += ".";
-                        }
-                       
+                        }                       
                     }
                 }
 
                 line = line.Substring(0, line.Length - 1);
-
                 
                 using (StreamWriter sw = new StreamWriter(saveFile))
-                {
-                 
-                    sw.WriteLine(line);
-                    
-                  
+                {                 
+                    sw.WriteLine(line);   
                 }
                 progressBar1.Visible = false;
                 MessageBox.Show("Erfolgreich gespeichert!");
@@ -741,59 +530,43 @@ namespace NeuronalNetwork
 
         private void readMatrData()
         {
-            if (nn3SO == null)
+            if (matrFile != null)
             {
-                errorForm = new ErrorForm();
-                errorForm.setError("Kein Netz gefunden!");
-                errorForm.Visible = true;
-            }
-            else
-            {
-                if (matrFile != null)
+                StreamReader sr = new StreamReader(matrFile);
+                string line;
+                List<string> inputlist = new List<string>();
+                int i, j;                
+                double[,] matrix;
+
+                progressBar1.Maximum = System.IO.File.ReadAllLines(matrFile).Length;
+                // Console.WriteLine(System.IO.File.ReadAllLines(matrFile).Length);
+                progressBar1.Visible = true;
+                progressBar1.Step = 1;
+                progressBar1.Value = 0;
+                while ((line = sr.ReadLine()) != null && (line != ""))
                 {
-                    StreamReader sr = new StreamReader(matrFile);
-                    string line;
-                    List<string> inputlist = new List<string>();
-                    int i, j;
-                    bool wih = false;
-                    bool who = false;
-                    double[,] matrix;
-
-
-                    progressBar1.Maximum = System.IO.File.ReadAllLines(matrFile).Length;
-                    // Console.WriteLine(System.IO.File.ReadAllLines(matrFile).Length);
-                    progressBar1.Visible = true;
-                    progressBar1.Step = 1;
-                    progressBar1.Value = 0;
-                    while ((line = sr.ReadLine()) != null && (line != ""))
+                    string[] input;
+                    input = line.Split('.');
+                    for (i = 0; i < input.Length; i++)
                     {
-                        string[] input;
-
-                        input = line.Split('.');
-                        for (i = 0; i < input.Length; i++)
-                        {
-                            //Console.WriteLine(input[i]);
-                            inputlist.Add(input[i]);
-                        }
-
-
-                        progressBar1.PerformStep();
+                        //Console.WriteLine(input[i]);
+                        inputlist.Add(input[i]);
                     }
-                    //progressBar1.Visible = false;
-
-                    //hnodes = Convert.ToInt32(inputlist[2]);
-
-                    hiddenLayers = Convert.ToInt32(inputlist[0]);
-                  //  Console.WriteLine("hidden " + hiddenLayers);
-                    hnodes = Convert.ToInt32(inputlist[1]);
-                  //  Console.WriteLine("hnodes " + hnodes);
-                    inodes = Convert.ToInt32(inputlist[2]);
-                    onodes = Convert.ToInt32(inputlist[3]);
-                    nn3SO.createFromData(inodes, hnodes, onodes, hiddenLayers);
-                   // Console.WriteLine("count " + inputlist.Count());
+                    progressBar1.PerformStep();
+                }
+                if (inputlist[0].Equals("Neuronales Netz von Arne Brandt: Matritzen"))
+                {
+                    hiddenLayers = Convert.ToInt32(inputlist[1]);
+                    //  Console.WriteLine("hidden " + hiddenLayers);
+                    hnodes = Convert.ToInt32(inputlist[2]);
+                    //  Console.WriteLine("hnodes " + hnodes);
+                    inodes = Convert.ToInt32(inputlist[3]);
+                    onodes = Convert.ToInt32(inputlist[4]);
+                    createNetwork();
+                    // Console.WriteLine("count " + inputlist.Count());
                     targets = new double[onodes];
 
-                    int z = 5;
+                    int z = 6;
 
                     progressBar1.Maximum = hnodes * inodes;
                     progressBar1.Value = 0;
@@ -835,37 +608,32 @@ namespace NeuronalNetwork
                         matrix = new double[hnodes, hnodes];
                         for (i = 0; i < hnodes; i++)
                         {
-
                             for (j = 0; j < hnodes; j++)
                             {
-
-                                //Console.WriteLine("read "+inputlist[z]);
-                                //if (!inputlist[z].Equals(""))
-                                //{
-
                                 matrix[i, j] = Convert.ToDouble(inputlist[z]);
-                                // Console.WriteLine("read " + inputlist[z]);
-                                //}
                                 z++;
                                 progressBar1.PerformStep();
-
                             }
                         }
                         nn3SO.WeightList.Add(matrix);
-
                     }
 
                     progressBar1.Value = 0;
                     progressBar1.Visible = false;
-
                 }
+                else
+                {
+                    progressBar1.Value = 0;
+                    progressBar1.Visible = false;
+                    errorForm = new ErrorForm();
+                    errorForm.setError("Die ausgewählte Datei hat ein falsches Format!");
+                    errorForm.Visible = true;
+                }        
             }
         }
 
         private void readData(bool train)
         {
-            traindata.Clear();
-            targetsdata.Clear();
             if (File != null)
             {
                 StreamReader sr = new StreamReader(File);
@@ -892,9 +660,7 @@ namespace NeuronalNetwork
                     targets[intTarget] = 0.99;
 
                     if (train == true)
-                    {
-                        //traindata.Add(inputs);
-                        //targetsdata.Add(targets);
+                    {                        
                         nn3SO.train(inputs, targets);
                     }
                     else
@@ -905,17 +671,10 @@ namespace NeuronalNetwork
 
                     }
                     displayResults();
-
-
                     if (checkBox2.Checked)
                         MessageBox.Show("Next");
-
-                    //progressBar1.Step += 1;
+                    
                     progressBar1.PerformStep();
-
-
-                    //nn3SO.queryNN(inputs);
-                    //trainCount++;
                 }
                 progressBar1.Visible = false;
                 progressBar1.Value = 0;
@@ -924,6 +683,121 @@ namespace NeuronalNetwork
             {
                 errorForm = new ErrorForm();
                 errorForm.setError("Keine Daten vorhanden!");
+                errorForm.Visible = true;
+            }
+        }
+
+        private void createNetwork()
+        {
+            int i, j;
+            inputs = new double[inodes];
+            targets = new double[onodes];
+            j = Math.Max(inodes, hnodes);
+            j = Math.Max(j, onodes);
+            for (i = 0; i < j; i++)
+                dataGridView1.Rows.Add();
+
+            nn3SO = new nn3S(inodes, hnodes, onodes, learningRate, hiddenLayers);
+        }
+
+        private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+            einstellungen = new Einstellungen();
+            einstellungen.Visible = true;
+        }
+
+        private void hiddenInputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (hiddenInputToolStripMenuItem.Checked)
+            {
+                dataGridView1.Columns["Column2_hidden"].Visible = true;
+            }
+            else
+            {
+                dataGridView1.Columns["Column2_hidden"].Visible = false;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            anzahlquery = 0;
+            richtig = 0;
+            textBox1.Clear();
+        }
+
+        private void hiddenOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (hiddenOutputToolStripMenuItem.Checked)
+            {
+                dataGridView1.Columns["Column3_output"].Visible = true;
+            }
+            else
+            {
+                dataGridView1.Columns["Column3_output"].Visible = false;
+            }
+        }
+
+        private void errorHiddenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (errorHiddenToolStripMenuItem.Checked)
+            {
+                dataGridView1.Columns["errorHidden"].Visible = true;
+            }
+            else
+            {
+                dataGridView1.Columns["errorHidden"].Visible = false;
+            }
+        }
+
+        private void inputOutputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (inputOutputToolStripMenuItem.Checked)
+            {
+                dataGridView1.Columns["Column4_inout"].Visible = true;
+            }
+            else
+            {
+                dataGridView1.Columns["Column4_inout"].Visible = false;
+            }
+        }
+
+        private void errorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (errorToolStripMenuItem.Checked)
+            {
+                dataGridView1.Columns["error"].Visible = true;
+            }
+            else
+            {
+                dataGridView1.Columns["error"].Visible = false;
+            }
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            Console.WriteLine("OK");
+            this.Text = appName + " - " + openFileDialog1.SafeFileName;
+
+        }
+
+        private void weightMatritzenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (nn3SO != null)
+            {
+                weightForm = new WeightMatrForm();
+                weightForm.viewMatr(nn3SO.WIH, nn3SO.WHO, nn3SO.WeightList);
+                weightForm.Visible = true;
+            }
+            else
+            {
+                errorForm = new ErrorForm();
+                errorForm.setError("Kein Netz gefunden");
                 errorForm.Visible = true;
             }
         }
