@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>img\file_type_reactjs_icon_130205.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -196,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="img\zwei.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\file_type_reactjs_icon_130205.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
