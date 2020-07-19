@@ -116,6 +116,7 @@
     <EmbeddedResource Include="ZeichnenForm.resx">
       <DependentUpon>ZeichnenForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Labor Neuronale Netzetrain.zip" />
     <None Include="nn.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
